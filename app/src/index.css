@@ -1,0 +1,31 @@
+:root {
+    --clr-neutral-900: hsl(0, 0%, 4%);
+    --clr-neutral-700: hsl(240, 4%, 9%);
+    --clr-neutral-600: hsl(240, 3%, 13%);
+    --clr-neutral-500: hsl(0, 0%, 18%);
+    --clr-neutral-400: hsl(0, 0%, 24%);
+    --clr-neutral-300: hsl(240, 1%, 27%);
+    --clr-neutral-200: hsl(0, 0%, 62%);
+    --clr-neutral-100: hsl(0, 0%, 78%);
+    --clr-neutral-50: hsl(0, 0%, 100%);
+    --clr-lime-500: hsl(0, 0%, 78%);
+    --clr-lime-800: hsl(73, 100%, 10%);
+    --clr-green-500: hsl(104, 96%, 47%);
+    --clr-red-500: hsl(0, 100%, 63%);
+}
+
+@font-face {
+    font-family: "Jet Brains Mono";
+    src: url("./assets/fonts/jetbrains-mono/jetbrains-mono-variable.ttf");
+}
+
+* {
+    box-sizing: border-box;
+    font-family: "Jet Brains Mono" !important;
+}
+
+body {
+    margin: 0;
+    background-color: var(--clr-neutral-900);
+    color: var(--clr-neutral-50);
+}
