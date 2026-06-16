@@ -1,0 +1,39 @@
+.statebutton {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: 0.07em solid var(--clr-lime-500);
+    color: var(--clr-neutral-50);
+
+    &:hover {
+        background-color: var(--clr-lime-800);
+    }
+
+    &.checked {
+        background-color: var(--clr-lime-500);
+        color: var(--clr-neutral-900);
+    }
+
+    &.checked:hover {
+        opacity: 0.8;
+    }
+}
+
+.statebutton > div {
+    grid-area: 1 / 1 / 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    transition: var(--transition);
+
+    &[data-active="false"] {
+        opacity: 0;
+    }
+
+    svg {
+        fill: currentColor;
+        stroke: currentColor;
+    }
+}

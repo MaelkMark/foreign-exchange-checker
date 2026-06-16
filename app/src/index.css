@@ -8,7 +8,7 @@
     --clr-neutral-200: hsl(0, 0%, 62%);
     --clr-neutral-100: hsl(0, 0%, 78%);
     --clr-neutral-50: hsl(0, 0%, 100%);
-    --clr-lime-500: hsl(0, 0%, 78%);
+    --clr-lime-500: hsl(73, 92%, 60%);
     --clr-lime-800: hsl(73, 100%, 10%);
     --clr-green-500: hsl(104, 96%, 47%);
     --clr-red-500: hsl(0, 100%, 63%);
@@ -28,4 +28,56 @@ body {
     margin: 0;
     background-color: var(--clr-neutral-900);
     color: var(--clr-neutral-50);
+}
+
+
+#root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 100dvh;
+}
+
+
+.button {
+    --transition: 0.2s ease-out;
+    cursor: pointer;
+    padding: 0.5em 0.75em;
+    background-color: var(--clr-neutral-600);
+    border: 0.07em solid var(--clr-neutral-400);
+    border-radius: 0.5em;
+    color: var(--clr-neutral-200);
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: var(--transition);
+    outline: 0.07em solid transparent;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+
+    &:hover {
+        background-color: var(--clr-neutral-500);
+    }
+
+    &:focus {
+        outline: 0.07em solid var(--clr-lime-500);
+        outline-offset: 0.19em;
+    }
+
+    svg {
+        fill: currentColor;
+        stroke: currentColor;
+        display: block;
+        flex-shrink: 0;
+        width: 1.25em;
+        height: 1.25em;
+        
+        path, rect, circle, ellipse, polygon {
+            fill: currentColor;
+            stroke: currentColor;
+        }
+    }
 }
