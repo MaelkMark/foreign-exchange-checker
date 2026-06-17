@@ -31,18 +31,31 @@ body {
 }
 
 
-#root {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    height: 100dvh;
+::selection {
+    /* background-color: hsl(from var(--clr-lime-500) h s l / 0.8);
+    color: var(--clr-neutral-900); */
+
+    background-color: var(--clr-lime-800);
+    color: var(--clr-neutral-100);
 }
 
+button {
+    cursor: pointer;
+    transition: var(--transition);
+    outline: 0.07em solid transparent;
+    user-select: none;
+    border: none;
+    background: none;
+    color: inherit;
+
+    &:focus {
+        outline: 0.07em solid var(--clr-lime-500);
+        outline-offset: 0.19em;
+    }
+}
 
 .button {
     --transition: 0.2s ease-out;
-    cursor: pointer;
     padding: 0.5em 0.75em;
     background-color: var(--clr-neutral-600);
     border: 0.07em solid var(--clr-neutral-400);
@@ -50,9 +63,6 @@ body {
     color: var(--clr-neutral-200);
     font-size: 1rem;
     text-transform: uppercase;
-    transition: var(--transition);
-    outline: 0.07em solid transparent;
-    user-select: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -60,11 +70,6 @@ body {
 
     &:hover {
         background-color: var(--clr-neutral-500);
-    }
-
-    &:focus {
-        outline: 0.07em solid var(--clr-lime-500);
-        outline-offset: 0.19em;
     }
 
     svg {

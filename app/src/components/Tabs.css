@@ -1,0 +1,86 @@
+.tabs-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .tabs-labels {
+        display: flex;
+        gap: 0.5em;
+        border-bottom: 1px solid var(--clr-neutral-600);
+    }
+
+    .tab-label {
+        padding: 0.5em 1em;
+        border-bottom: 1px solid transparent;
+        border-radius: 0.25em;
+        user-select: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        transition: 0.2s;
+
+        &[data-active="true"] {
+            border-color: var(--clr-lime-500);
+        }
+    }
+
+    .tab-label-text {
+        text-transform: uppercase;
+    }
+
+    .tab-label-notifications {
+        color: var(--clr-lime-500);
+        background-color: var(--clr-lime-800);
+        border-radius: 100vmax;
+        padding: 0.5em;
+        font-size: 0.625rem;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+
+        --size: 2.3em;
+        min-height: var(--size);
+        min-width: var(--size);
+    }
+
+    .tabs-contents {
+        display: grid;
+    }
+
+    .tab-content {
+        grid-area: 1 / 1 / 1 / 1;
+
+        &[data-active="false"] {
+            opacity: 0;
+            pointer-events: none;
+        }
+    }
+}
+
+@supports (
+    (anchor-name: --active-tab-label) and
+    (anchor-scope: --active-tab-label) and
+    (top: anchor(--active-tab-label bottom))
+) {
+    .tab-label[data-active="true"] {
+        border-color: transparent !important;
+        anchor-name: --active-tab-label;
+    }
+
+    .tabs-labels {
+        anchor-scope: --active-tab-label;
+    }
+
+    .tabs-labels::after {
+        content: "";
+        position: absolute;
+        transition: 0.2s;
+        height: 1px;
+        background-color: var(--clr-lime-500);
+        top: anchor(--active-tab-label bottom);
+        left: anchor(--active-tab-label left);
+        right: anchor(--active-tab-label right);
+    }
+}
