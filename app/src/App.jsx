@@ -29,7 +29,7 @@ export default function App() {
             <Tabs>
                 <Tabs.Tab label="Alma">Az alma finom</Tabs.Tab>
                 <Tabs.Tab label="Körte" notifications={1}>
-                    Az körte is finom
+                    A körte is finom
                 </Tabs.Tab>
                 <Tabs.Tab label="Some really loooong content" notifications={12528}>
                     Nulla est ex anim ipsum commodo adipisicing incididunt cupidatat dolor esse id
@@ -51,6 +51,11 @@ export default function App() {
                 <SVGStar />
                 Favorite
             </button>
+            <Tabs>
+                <Tabs.Tab label="Page 1">Content of page 1</Tabs.Tab>
+                <Tabs.Tab label="Page 2">Content of page 2</Tabs.Tab>
+                <Tabs.Tab label="Page 3">Content of page 3</Tabs.Tab>
+            </Tabs>
         </>
     );
 }

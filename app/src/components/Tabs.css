@@ -15,15 +15,22 @@
         border-bottom: 1px solid transparent;
         border-radius: 0.25em;
         user-select: none;
-        cursor: pointer;
         display: flex;
         align-items: center;
         gap: 0.5em;
         transition: 0.2s;
+        position: relative;
 
         &[data-active="true"] {
             border-color: var(--clr-lime-500);
         }
+    }
+
+    .tab-radio {
+        position: absolute;
+        inset: 0;
+        appearance: none;
+        cursor: pointer;
     }
 
     .tab-label-text {
