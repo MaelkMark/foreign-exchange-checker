@@ -1,0 +1,19 @@
+.search-field {
+    position: relative;
+
+    input {
+        /* border: none;
+        outline: none; */
+        padding-left: 2.625em;
+    }
+
+    svg {
+        position: absolute;
+        left: 0.75em;
+        top: 50%;
+        width: 1.25em;
+        height: 1.25em;
+        transform: translateY(-50%);
+        color: var(--clr-neutral-400);
+    }
+}
