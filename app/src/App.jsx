@@ -61,8 +61,9 @@ export default function App() {
             <Tabs>
                 <Tabs.Tab label="Page 1">Selected currency: {selectedCurrency}</Tabs.Tab>
                 <Tabs.Tab label="Page 2">Content of page 2</Tabs.Tab>
-                <Tabs.Tab label="Page 3">Content of page 3</Tabs.Tab>
+                <Tabs.Tab label="Page 3">Elit eiusmod nostrud labore quis occaecat officia eu sunt est adipisicing elit cillum. Occaecat laboris aliqua in quis occaecat id in eu duis. Do adipisicing nisi non consequat exercitation nisi dolor anim sit labore. Aliqua velit reprehenderit labore in quis velit esse sit velit voluptate sit ad. In amet incididunt culpa incididunt deserunt. Eu deserunt culpa irure ullamco duis magna enim non non. Nulla est nisi adipisicing nulla aliquip est in occaecat ad occaecat id.</Tabs.Tab>
             </Tabs>
+            After tabs
             {/* <StateButton state={logged} checked={logged} onClick={() => setLogged((prev) => !prev)}>
                 <StateButton.Off>Log conversion</StateButton.Off>
                 <StateButton.On>
