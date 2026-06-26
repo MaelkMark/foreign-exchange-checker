@@ -1,0 +1,45 @@
+.currency-picker {
+    .select-item, .select-value {
+        display: grid;
+        grid-template-columns: 20px 3ch 1fr 1em;
+        align-items: center;
+        gap: 0.75em;
+    }
+
+    .select-item-icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+    }
+
+    .select-item-code {
+        color: var(--clr-neutral-50);
+        font-size: 0.825rem;
+    }
+
+    .select-item-name {
+        color: var(--clr-neutral-100);
+        font-size: 0.75rem;
+    }
+
+    .select-value {
+        display: grid;
+        grid-template-columns: 20px 3ch;
+        align-items: center;
+        gap: 0.75em;
+
+        .select-item-name, .select-item-check {
+            display: none;
+        }
+    }
+
+    .select-category-header {
+        text-transform: uppercase;
+        color: var(--clr-neutral-200);
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        padding: 0.5em;
+        border-bottom: 1px solid var(--clr-neutral-500);
+    }
+}

@@ -28,7 +28,7 @@ export default function Select({ search = true, label, ariaLabel, errorMessage, 
             {label && <Label className="select-label">{label}</Label>}
             <Button className="select-trigger">
                 <SelectValue className="select-value" />
-                <ChevronDown />
+                <ChevronDown className="select-trigger-icon" />
             </Button>
             <ConditionalWrapper
                 condition={search}

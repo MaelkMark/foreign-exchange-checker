@@ -16,7 +16,7 @@ function getCurrencyIconUrl(name) {
 export default function App() {
     const [logged, setLogged] = React.useState(false);
     const [counter, setCounter] = React.useState(1);
-    const [selectedCurrency, setSelectedCurrency] = React.useState("EUR");
+    const [selectedCurrency, setSelectedCurrency] = React.useState("USD");
     const [value, setValue] = React.useState("option1");
     return (
         <>
@@ -24,8 +24,21 @@ export default function App() {
                 <Select.Item value="option1">Option 1</Select.Item>
                 <Select.Item value="option2">Option 2</Select.Item>
                 <Select.Item value="long">Something really-really-really loooong</Select.Item>
+                <Select.Item value="option3">Option 3</Select.Item>
+                <Select.Item value="option4">Option 4</Select.Item>
+                <Select.Item value="option5">Option 5</Select.Item>
+                <Select.Item value="option6">Option 6</Select.Item>
+                <Select.Item value="option7">Option 7</Select.Item>
+                <Select.Item value="option8">Option 8</Select.Item>
+                <Select.Item value="option9">Option 9</Select.Item>
+                <Select.Item value="option10">Option 10</Select.Item>
+                <Select.Item value="option11">Option 11</Select.Item>
+                <Select.Item value="option12">Option 12</Select.Item>
+                <Select.Item value="option13">Option 13</Select.Item>
+                <Select.Item value="option14">Option 14</Select.Item>
+                <Select.Item value="option15">Option 15</Select.Item>
             </Select>
-            {/* <div>{value}</div> */}
+            <div>{value}</div>
             <CurrencyPicker 
                 selectedIcon={SVGCheck} 
                 initialValue="EUR" 
@@ -44,6 +57,7 @@ export default function App() {
                     <CurrencyPicker.Currency iconSrc={getCurrencyIconUrl("au.webp")} code="AUD" name="Australian Dollar" />
                 </CurrencyPicker.Category>
             </CurrencyPicker>
+            <div>{selectedCurrency}</div>
             <Tabs>
                 <Tabs.Tab label="Page 1">Selected currency: {selectedCurrency}</Tabs.Tab>
                 <Tabs.Tab label="Page 2">Content of page 2</Tabs.Tab>
