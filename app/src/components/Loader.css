@@ -1,0 +1,22 @@
+.loader {
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    color: currentColor;
+}
+
+.loader--spinner {
+    border: 0.2em solid transparent;
+    border-right-color: currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
