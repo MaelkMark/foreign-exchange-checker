@@ -1,0 +1,31 @@
+
+.marquee {
+    border: 1px solid white;
+    overflow: hidden;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    .marquee-sandbox {
+        width: 99999px;
+        position: fixed;
+        visibility: hidden;
+        pointer-events: none;
+        z-index: -9999;
+    }
+    
+    .marquee-content {
+        display: inline-flex;
+        gap: 4ch;
+        white-space: nowrap;
+        word-break: keep-all;
+    }
+    
+    .marquee-item {
+        position: absolute;
+        top: 50%;
+        translate: 0 -50%;
+        padding-inline: 30px;
+    }
+}

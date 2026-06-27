@@ -8,6 +8,7 @@ import StateButton from "./components/StateButton";
 import Tabs from "./components/Tabs";
 import CurrencyPicker from "./components/CurrencyPicker";
 import Select from "./components/Select";
+import Marquee from "./components/Marquee";
 
 function getCurrencyIconUrl(name) {
     return new URL(`./assets/images/flags/${name}`, import.meta.url).href;
@@ -20,6 +21,30 @@ export default function App() {
     const [value, setValue] = React.useState("option1");
     return (
         <>
+            <Marquee>
+                <Marquee.Item>START</Marquee.Item>
+                <Marquee.Item>125.23</Marquee.Item>
+                <Marquee.Item>1.3723</Marquee.Item>
+                <Marquee.Item>0.9734</Marquee.Item>
+                <Marquee.Item>3.2556</Marquee.Item>
+                <Marquee.Item>0.2176</Marquee.Item>
+                <Marquee.Item>0.3464</Marquee.Item>
+                <Marquee.Item>2.2356</Marquee.Item>
+                <Marquee.Item>103.23</Marquee.Item>
+                <Marquee.Item>72.245</Marquee.Item>
+                <Marquee.Item>2.1248</Marquee.Item>
+                <Marquee.Item>{selectedCurrency}</Marquee.Item>
+                <Marquee.Item>The end is really long</Marquee.Item>
+            </Marquee>
+            <Marquee speed={150} style={{ top: "100px" }}>
+                <Marquee.Item style={{ padding: "5px", border: "1px solid lightblue" }}>First</Marquee.Item>
+                <Marquee.Item>Second</Marquee.Item>
+                <Marquee.Item>
+                    <div style={{ color: "yellow" }}>Third</div>
+                </Marquee.Item>
+                <Marquee.Item style={{ color: "red" }}>{selectedCurrency}</Marquee.Item>
+                <Marquee.Item>End</Marquee.Item>
+            </Marquee>
             <Select ariaLabel="Az alma finom" value={value} onChange={setValue}>
                 <Select.Item value="option1">Option 1</Select.Item>
                 <Select.Item value="option2">Option 2</Select.Item>
@@ -38,30 +63,64 @@ export default function App() {
                 <Select.Item value="option14">Option 14</Select.Item>
                 <Select.Item value="option15">Option 15</Select.Item>
             </Select>
+            <StateButton state={logged} checked={logged} onClick={() => setLogged(prev => !prev)}>
+                <StateButton.Off>Log conversion</StateButton.Off>
+                <StateButton.On>
+                    <SVGCheck />
+                    Logged
+                </StateButton.On>
+            </StateButton>
             <div>{value}</div>
-            <CurrencyPicker 
-                selectedIcon={SVGCheck} 
-                initialValue="EUR" 
+            <CurrencyPicker
+                selectedIcon={SVGCheck}
+                initialValue="EUR"
                 searchPlaceholder="Search currencies..."
                 value={selectedCurrency}
                 onChange={setSelectedCurrency}
             >
-                <CurrencyPicker.Currency iconSrc={getCurrencyIconUrl("hu.webp")} code="HUF" name="Hungarian Forint" />
+                <CurrencyPicker.Currency
+                    iconSrc={getCurrencyIconUrl("hu.webp")}
+                    code="HUF"
+                    name="Hungarian Forint"
+                />
                 <CurrencyPicker.Category label="Popular">
-                    <CurrencyPicker.Currency iconSrc={getCurrencyIconUrl("us.webp")} code="USD" name="US Dollar" />
+                    <CurrencyPicker.Currency
+                        iconSrc={getCurrencyIconUrl("us.webp")}
+                        code="USD"
+                        name="US Dollar"
+                    />
                     <CurrencyPicker.Currency iconSrc={getCurrencyIconUrl("eu.webp")} code="EUR" name="Euro" />
                 </CurrencyPicker.Category>
                 <CurrencyPicker.Category label="Other Currencies">
-                    <CurrencyPicker.Currency iconSrc={getCurrencyIconUrl("ae.webp")} code="AED" name="UAE Dirham" />
-                    <CurrencyPicker.Currency iconSrc={getCurrencyIconUrl("ar.webp")} code="ARS" name="Argentine Peso" />
-                    <CurrencyPicker.Currency iconSrc={getCurrencyIconUrl("au.webp")} code="AUD" name="Australian Dollar" />
+                    <CurrencyPicker.Currency
+                        iconSrc={getCurrencyIconUrl("ae.webp")}
+                        code="AED"
+                        name="UAE Dirham"
+                    />
+                    <CurrencyPicker.Currency
+                        iconSrc={getCurrencyIconUrl("ar.webp")}
+                        code="ARS"
+                        name="Argentine Peso"
+                    />
+                    <CurrencyPicker.Currency
+                        iconSrc={getCurrencyIconUrl("au.webp")}
+                        code="AUD"
+                        name="Australian Dollar"
+                    />
                 </CurrencyPicker.Category>
             </CurrencyPicker>
             <div>{selectedCurrency}</div>
             <Tabs>
                 <Tabs.Tab label="Page 1">Selected currency: {selectedCurrency}</Tabs.Tab>
                 <Tabs.Tab label="Page 2">Content of page 2</Tabs.Tab>
-                <Tabs.Tab label="Page 3">Elit eiusmod nostrud labore quis occaecat officia eu sunt est adipisicing elit cillum. Occaecat laboris aliqua in quis occaecat id in eu duis. Do adipisicing nisi non consequat exercitation nisi dolor anim sit labore. Aliqua velit reprehenderit labore in quis velit esse sit velit voluptate sit ad. In amet incididunt culpa incididunt deserunt. Eu deserunt culpa irure ullamco duis magna enim non non. Nulla est nisi adipisicing nulla aliquip est in occaecat ad occaecat id.</Tabs.Tab>
+                <Tabs.Tab label="Page 3">
+                    Elit eiusmod nostrud labore quis occaecat officia eu sunt est adipisicing elit cillum.
+                    Occaecat laboris aliqua in quis occaecat id in eu duis. Do adipisicing nisi non consequat
+                    exercitation nisi dolor anim sit labore. Aliqua velit reprehenderit labore in quis velit
+                    esse sit velit voluptate sit ad. In amet incididunt culpa incididunt deserunt. Eu deserunt
+                    culpa irure ullamco duis magna enim non non. Nulla est nisi adipisicing nulla aliquip est
+                    in occaecat ad occaecat id.
+                </Tabs.Tab>
             </Tabs>
             After tabs
             {/* <StateButton state={logged} checked={logged} onClick={() => setLogged((prev) => !prev)}>
