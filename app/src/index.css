@@ -23,6 +23,8 @@
 * {
     box-sizing: border-box;
     font-family: "Jet Brains Mono" !important;
+    scrollbar-color: var(--clr-neutral-400) var(--clr-neutral-900);
+    scrollbar-width: thin;
 }
 
 body {

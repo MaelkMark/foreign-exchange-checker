@@ -111,9 +111,11 @@ export default function App() {
             </CurrencyPicker>
             <div>{selectedCurrency}</div>
             <Tabs>
-                <Tabs.Tab label="Page 1">Selected currency: {selectedCurrency}</Tabs.Tab>
-                <Tabs.Tab label="Page 2">Content of page 2</Tabs.Tab>
-                <Tabs.Tab label="Page 3">
+                <Tabs.Tab label="Page 1" notifications={3}>Selected currency: {selectedCurrency}</Tabs.Tab>
+                <Tabs.Tab label="Page 2" notifications="alma">Content of page 2</Tabs.Tab>
+                <Tabs.Tab label="Page 3">Content of page 3</Tabs.Tab>
+                <Tabs.Tab label="Page 4">Content of page 4</Tabs.Tab>
+                <Tabs.Tab label="Page 5" notifications={12528}>
                     Elit eiusmod nostrud labore quis occaecat officia eu sunt est adipisicing elit cillum.
                     Occaecat laboris aliqua in quis occaecat id in eu duis. Do adipisicing nisi non consequat
                     exercitation nisi dolor anim sit labore. Aliqua velit reprehenderit labore in quis velit
