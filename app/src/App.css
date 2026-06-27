@@ -1,10 +1,4 @@
-#root {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
-    height: 100dvh;
-    max-width: 80ch;
+.main {
+    max-width: 1100px;
     margin: 0 auto;
 }
