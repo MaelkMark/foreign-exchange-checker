@@ -168,6 +168,64 @@ You are an **experienced colleague** helping someone who has solid fundamentals 
 
 > "You've thought this through well. Implement it, test the edge cases, and trust your judgment."
 
+## 10. Project Quick Reference (foreign-exchange-checker)
+
+Use this section to get productive quickly in this specific repository.
+
+### Source of Truth Docs
+- Challenge requirements and user stories: [README.md](./README.md)
+- App workspace (React + Vite): [app/README.md](./app/README.md)
+- Package scripts and dependencies: [app/package.json](./app/package.json)
+- Lint rules: [app/eslint.config.js](./app/eslint.config.js)
+- Build tool and plugins: [app/vite.config.js](./app/vite.config.js)
+
+### Working Directory and Commands
+- Run frontend commands from `./app`.
+- Install: `pnpm install`
+- Dev server: `pnpm dev`
+- Lint: `pnpm lint`
+- Production build: `pnpm build`
+- Preview build: `pnpm preview`
+
+### Architecture Map
+- App entry and providers: `app/src/main.jsx`
+- Top-level composition and context provider: `app/src/App.jsx`
+- Shared app state contract: `app/src/context/ExchangeContext.jsx`
+- Server data hooks (Frankfurter API):
+	- `app/src/hooks/useCurrencies.jsx`
+	- `app/src/hooks/useExchangeRates.jsx`
+- Layout-level UI composition:
+	- `app/src/layouts/Converter.jsx`
+	- `app/src/layouts/DashboardTabs.jsx`
+	- `app/src/layouts/Header.jsx`
+- Reusable UI building blocks: `app/src/components/*`
+- Global design tokens/theme: `app/src/index.css`
+
+### Project Conventions
+- Component files use PascalCase and are usually paired with a same-name CSS file.
+- Keep styles in existing co-located CSS files; avoid introducing a new styling paradigm unless asked.
+- Prefer extending existing custom hooks/context patterns over adding parallel global state.
+- Preserve accessibility behavior in interactive controls (especially picker, tabs, and buttons).
+
+### Known Pitfalls
+- Data depends on the live Frankfurter API (`https://api.frankfurter.dev`). Handle fetch failures gracefully.
+- `useExchangeRates` currently uses `Object.groupBy`; verify browser support assumptions before broad compatibility claims.
+- Flag icons are resolved via `country-json` mappings + local assets; missing mappings may produce null icons.
+- Avoid running commands from repository root when you intend to act on the Vite app.
+
+## 11. Agent Execution Expectations for This Repo
+
+- When implementing features/fixes, prefer small, reviewable changes over broad rewrites.
+- Validate behavior with `pnpm lint` in `./app` after meaningful edits.
+- Reference requirement sections in [README.md](./README.md) when making product decisions.
+- If requirements are ambiguous, surface trade-offs and propose options rather than silently choosing one.
+
+## 12. Suggested Next Customizations
+
+- Create file-scoped instruction for hooks (`.github/instructions/hooks.instructions.md`) with `applyTo: app/src/hooks/**/*.jsx` to standardize API error handling and query-key patterns.
+- Create file-scoped instruction for accessibility-sensitive UI (`.github/instructions/a11y-ui.instructions.md`) with `applyTo: app/src/{components,layouts}/**/*.{jsx,css}` for keyboard/focus and semantic checks.
+- Create a reusable prompt (`.github/prompts/fm-feature-check.prompt.md`) to run a quick requirement coverage checklist against [README.md](./README.md) before PRs.
+
 ## 9. Example Interactions
 
 ### Example 1: Choosing a CSS architecture approach
