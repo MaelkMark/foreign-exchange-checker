@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 import "./Marquee.css";
 
 function mergeStyles(baseStyle, extraStyle) {
@@ -14,9 +15,7 @@ function fillItems(items, sourceItems, containerWidth, nextIndexRef, idRef) {
     }
 
     const nextItems = [...items];
-    let currentRight = nextItems.length > 0
-        ? Math.max(...nextItems.map(item => item.left + item.width))
-        : 0;
+    let currentRight = nextItems.length > 0 ? Math.max(...nextItems.map(item => item.left + item.width)) : 0;
 
     while (currentRight <= containerWidth) {
         const sourceIndex = nextIndexRef.current % sourceItems.length;
@@ -36,7 +35,7 @@ function fillItems(items, sourceItems, containerWidth, nextIndexRef, idRef) {
     return nextItems;
 }
 
-export default function Marquee({ children, speed = 40, ...props }) {
+export default function Marquee({ children, speed = 40, className, ...props }) {
     const containerRef = React.useRef(null);
     const sandboxRef = React.useRef(null);
     const frameRef = React.useRef(null);
@@ -50,7 +49,7 @@ export default function Marquee({ children, speed = 40, ...props }) {
 
     const childItems = React.useMemo(
         () => React.Children.toArray(children).filter(React.isValidElement),
-        [children]
+        [children],
     );
 
     const measuredItemsRef = React.useRef(measuredItems);
@@ -104,7 +103,9 @@ export default function Marquee({ children, speed = 40, ...props }) {
             return;
         }
 
-        setRenderedItems(currentItems => fillItems(currentItems, measuredItems, containerWidth, nextIndexRef, instanceIdRef));
+        setRenderedItems(currentItems =>
+            fillItems(currentItems, measuredItems, containerWidth, nextIndexRef, instanceIdRef),
+        );
     }, [measuredItems, containerWidth]);
 
     React.useEffect(() => {
@@ -125,7 +126,13 @@ export default function Marquee({ children, speed = 40, ...props }) {
                         }))
                         .filter(item => item.left + item.width >= 0);
 
-                    return fillItems(shiftedItems, measuredItemsRef.current, containerWidth, nextIndexRef, instanceIdRef);
+                    return fillItems(
+                        shiftedItems,
+                        measuredItemsRef.current,
+                        containerWidth,
+                        nextIndexRef,
+                        instanceIdRef,
+                    );
                 });
             }
 
@@ -143,7 +150,7 @@ export default function Marquee({ children, speed = 40, ...props }) {
     }, [containerWidth, speed]);
 
     return (
-        <div className="marquee" ref={containerRef} {...props}>
+        <div className={clsx("marquee", className)} ref={containerRef} role="marquee" aria-live="off" {...props}>
             <div className="marquee-sandbox" ref={sandboxRef} aria-hidden="true">
                 {childItems}
             </div>
@@ -154,7 +161,7 @@ export default function Marquee({ children, speed = 40, ...props }) {
                         style: mergeStyles(item.element.props.style, {
                             left: `${item.left}px`,
                         }),
-                    })
+                    }),
                 )}
             </div>
         </div>
@@ -163,7 +170,7 @@ export default function Marquee({ children, speed = 40, ...props }) {
 
 function Item({ children, className, style, ...props }) {
     return (
-        <span className={["marquee-item", className].filter(Boolean).join(" ")} style={style} {...props}>
+        <span className={clsx("marquee-item", className)} style={style} {...props}>
             {children}
         </span>
     );

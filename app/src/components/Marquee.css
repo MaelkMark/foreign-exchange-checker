@@ -1,11 +1,7 @@
 
 .marquee {
-    border: 1px solid white;
     overflow: hidden;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: relative;
 
     .marquee-sandbox {
         width: 99999px;
@@ -16,8 +12,7 @@
     }
     
     .marquee-content {
-        display: inline-flex;
-        gap: 4ch;
+        display: inline-block;
         white-space: nowrap;
         word-break: keep-all;
     }
@@ -26,6 +21,6 @@
         position: absolute;
         top: 50%;
         translate: 0 -50%;
-        padding-inline: 30px;
+        padding-inline: 2ch;
     }
 }
