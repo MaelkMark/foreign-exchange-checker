@@ -8,13 +8,18 @@ import DashboardTabs from "./layouts/DashboardTabs";
 import useExchangeRates from "./hooks/useExchangeRates";
 import useCurrencies from "./hooks/useCurrencies";
 import useUserCountry from "./hooks/useUserCountry";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 import ExchangeContext from "./context/ExchangeContext";
+import UserContext from "./context/UserContext";
 
 export default function App() {
     const { data: exchangeRates, isLoading: ratesLoading, error: ratesError } = useExchangeRates();
     const { data: currencies, isLoading: currenciesLoading, error: currenciesError } = useCurrencies();
     const { data: userCountry, isLoading: userCountryLoading, error: userCountryError } = useUserCountry();
+
+    const [favorites, setFavorites] = useLocalStorage("favorites", []);
+    const [logs, setLogs] = useLocalStorage("logs", []);
 
     return (
         <ExchangeContext.Provider
@@ -31,10 +36,19 @@ export default function App() {
             }}
         >
             <Header />
-            <main className="main">
-                <Converter />
-                <DashboardTabs />
-            </main>
+            <UserContext.Provider
+                value={{
+                    favorites: favorites,
+                    setFavorites: setFavorites,
+                    logs: logs,
+                    setLogs: setLogs,
+                }}
+            >
+                <main className="main">
+                    <Converter />
+                    <DashboardTabs />
+                </main>
+            </UserContext.Provider>
         </ExchangeContext.Provider>
     );
 }

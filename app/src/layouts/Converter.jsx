@@ -12,6 +12,7 @@ import StarFilledIcon from "../assets/images/icon-star-filled.svg?react";
 import CheckIcon from "../assets/images/icon-check.svg?react";
 
 import ExchangeContext from "../context/ExchangeContext";
+import UserContext from "../context/UserContext";
 
 import "./Converter.css";
 
@@ -19,12 +20,15 @@ export default function Converter() {
     const [sendCurrency, setSendCurrency] = React.useState("USD");
     const [sendAmount, setSendAmount] = React.useState(0);
     const [receiveCurrency, setReceiveCurrency] = React.useState("EUR");
-    const [favorited, setFavorited] = React.useState(false);
-    const [logged, setLogged] = React.useState(false);
+    const [loggedFeedback, setLoggedFeedback] = React.useState(false);
 
     const { exchangeRates, ratesLoading } = React.useContext(ExchangeContext);
+    const { favorites, setFavorites, logs, setLogs } = React.useContext(UserContext);
 
-    console.log(exchangeRates);
+    const isFavorite = favorites.includes(`${sendCurrency}-${receiveCurrency}`);
+
+    console.log("favorites", favorites);
+    console.log("logs", logs);
 
     let unitRate = 0;
     if (!ratesLoading && exchangeRates) {
@@ -33,7 +37,37 @@ export default function Converter() {
         unitRate = receiveRate / sendRate;
     }
     const receiveAmount = unitRate * sendAmount;
-    
+
+    function toggleFavorite() {
+        const pair = `${sendCurrency}-${receiveCurrency}`;
+        if (favorites.includes(pair)) {
+            setFavorites(favorites.filter(fav => fav !== pair));
+        } else {
+            setFavorites([...favorites, pair]);
+        }
+    }
+
+    function getLog() {
+        return {
+            datetime: new Date().toISOString(),
+            sendCurrency,
+            receiveCurrency,
+            sendAmount,
+            receiveAmount,
+        };
+    }
+
+    function toggleLog() {
+        const log = getLog();
+        if (logs.find(l => JSON.stringify(l) === JSON.stringify(log))) {
+            setLogs(logs.filter(l => JSON.stringify(l) !== JSON.stringify(log)));
+            setLoggedFeedback(false);
+        } else {
+            setLogs([...logs, log]);
+            setLoggedFeedback(true);
+        }
+    }
+
     function swapCurrencies() {
         const tempCurrency = sendCurrency;
         setSendCurrency(receiveCurrency);
@@ -77,12 +111,14 @@ export default function Converter() {
                     </div>
                 </Form>
                 <div className="converter-info">
-                    <div className="converter-rate">1 {sendCurrency} = {unitRate.toFixed(4)} {receiveCurrency}</div>
+                    <div className="converter-rate">
+                        1 {sendCurrency} = {unitRate.toFixed(4)} {receiveCurrency}
+                    </div>
                     <div className="converter-buttons">
                         <StateButton
                             className="converter-button converter-favorite"
-                            checked={favorited}
-                            onClick={() => setFavorited(prev => !prev)}
+                            checked={isFavorite}
+                            onClick={() => toggleFavorite()}
                         >
                             <StateButton.Off>
                                 <StarIcon />
@@ -95,8 +131,11 @@ export default function Converter() {
                         </StateButton>
                         <StateButton
                             className="converter-button converter-log"
-                            checked={logged}
-                            onClick={() => setLogged(prev => !prev)}
+                            checked={loggedFeedback}
+                            setChecked={setLoggedFeedback}
+                            uncheckAfter={2000}
+                            disabledWhenChecked={true}
+                            onClick={() => toggleLog()}
                         >
                             <StateButton.Off>Log conversion</StateButton.Off>
                             <StateButton.On>
