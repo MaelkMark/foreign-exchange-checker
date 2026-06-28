@@ -23,24 +23,27 @@ export default function useExchangeRates() {
         refetchInterval: REFRESH,
         refetchIntervalInBackground: false,
         select: data => {
-            return Object.entries(Object.groupBy(data, item => item.quote))
-                .map(([currency, items]) => {
-                    const todayRate = items.find(item => item.date === today)?.rate ?? null;
-                    const yesterdayRate = items.find(item => item.date === yesterday)?.rate ?? null;
-                    const change =
-                        todayRate !== null && yesterdayRate !== null
-                            ? (todayRate / yesterdayRate - 1) * 100
-                            : 0;
-                    return {
-                        base: items[0]?.base ?? "USD",
-                        currency,
-                        rate: todayRate ?? yesterdayRate,
-                        change,
-                    };
-                })
-                .filter(rate => {
-                    return rate.currency.toUpperCase() in flags;
-                });
+            return [
+                ...Object.entries(Object.groupBy(data, item => item.quote))
+                    .map(([currency, items]) => {
+                        const todayRate = items.find(item => item.date === today)?.rate ?? null;
+                        const yesterdayRate = items.find(item => item.date === yesterday)?.rate ?? null;
+                        const change =
+                            todayRate !== null && yesterdayRate !== null
+                                ? (todayRate / yesterdayRate - 1) * 100
+                                : 0;
+                        return {
+                            base: items[0]?.base ?? "USD",
+                            currency,
+                            rate: todayRate ?? yesterdayRate,
+                            change,
+                        };
+                    })
+                    .filter(rate => {
+                        return rate.currency.toUpperCase() in flags;
+                    }),
+                { base: "USD", currency: "USD", rate: 1, change: 0 },
+            ];
         },
     });
 }
