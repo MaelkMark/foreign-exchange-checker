@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
+import flags from "../assets/images/flags/flags.json";
 
 /**
- * 
+ *
  * @returns Returns the exchange rates relative to USD and the % change in rates from yesterday to today.
  * `[{ base: string, currency: string, rate: number, change: number }]`
  */
@@ -20,14 +21,26 @@ export default function useExchangeRates() {
         },
         staleTime: REFRESH,
         refetchInterval: REFRESH,
-        refetchIntervalInBackground: false, 
-        select: (data) => {
-            return Object.entries(Object.groupBy(data, (item) => item.quote)).map(([currency, items]) => {
-                const todayRate = items.find(item => item.date === today)?.rate ?? null;
-                const yesterdayRate = items.find(item => item.date === yesterday)?.rate ?? null;
-                const change = todayRate !== null && yesterdayRate !== null ? (todayRate / yesterdayRate - 1) * 100 : 0;
-                return { base: items[0]?.base ?? "USD", currency, rate: todayRate ?? yesterdayRate, change };
-            });
-        }
+        refetchIntervalInBackground: false,
+        select: data => {
+            return Object.entries(Object.groupBy(data, item => item.quote))
+                .map(([currency, items]) => {
+                    const todayRate = items.find(item => item.date === today)?.rate ?? null;
+                    const yesterdayRate = items.find(item => item.date === yesterday)?.rate ?? null;
+                    const change =
+                        todayRate !== null && yesterdayRate !== null
+                            ? (todayRate / yesterdayRate - 1) * 100
+                            : 0;
+                    return {
+                        base: items[0]?.base ?? "USD",
+                        currency,
+                        rate: todayRate ?? yesterdayRate,
+                        change,
+                    };
+                })
+                .filter(rate => {
+                    return rate.currency.toUpperCase() in flags;
+                });
+        },
     });
 }

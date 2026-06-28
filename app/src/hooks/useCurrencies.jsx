@@ -1,17 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import countryAbbreviations from "country-json/src/country-by-abbreviation.json";
-import countryCurrencies from "country-json/src/country-by-currency-code.json";
 import flags from "../assets/images/flags/flags.json";
 
 function getCurrencyIconUrl(iso_code) {
-    const country = countryCurrencies.find(c => c.currency_code === iso_code);
-    if (!country) return null;
-
-    const countryAbbreviation = countryAbbreviations.find(c => c.country === country.country);
-    if (!countryAbbreviation) return null;
-
-    const name = countryAbbreviation.abbreviation.toLowerCase();
-    if (!flags.includes(name)) return null;
+    const name = flags[iso_code.toUpperCase()];
+    if (!name) return null;
 
     return new URL(`../assets/images/flags/${name}.webp`, import.meta.url).href;
 }
