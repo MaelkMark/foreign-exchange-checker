@@ -1,4 +1,8 @@
 .currency-picker {
+    .select-trigger {
+        padding: 0.625em;
+    }
+
     .select-item, .select-value {
         display: grid;
         grid-template-columns: 20px 3ch 1fr 1em;
@@ -26,7 +30,7 @@
         display: grid;
         grid-template-columns: 20px 3ch;
         align-items: center;
-        gap: 0.75em;
+        gap: 0.5em;
 
         .select-item-name, .select-item-check {
             display: none;
