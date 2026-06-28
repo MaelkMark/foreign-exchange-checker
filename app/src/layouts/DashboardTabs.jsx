@@ -1,4 +1,4 @@
-export default function DashboardTabs(props) {
+export default function DashboardTabs() {
     return (
         <div>DashboardTabs</div>
     )

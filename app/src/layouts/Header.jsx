@@ -13,7 +13,7 @@ function fixedLengthNumber(num, length, includeSign = false) {
     return sign + numStr.slice(0, length);
 }
 
-export default function Header(props) {
+export default function Header() {
     const { currencies, currenciesLoading, currenciesError, exchangeRates, ratesLoading, ratesError } =
         React.useContext(ExchangeContext);
 
