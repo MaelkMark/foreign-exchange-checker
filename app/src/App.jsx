@@ -7,12 +7,14 @@ import DashboardTabs from "./layouts/DashboardTabs";
 
 import useExchangeRates from "./hooks/useExchangeRates";
 import useCurrencies from "./hooks/useCurrencies";
+import useUserCountry from "./hooks/useUserCountry";
 
 import ExchangeContext from "./context/ExchangeContext";
 
 export default function App() {
     const { data: exchangeRates, isLoading: ratesLoading, error: ratesError } = useExchangeRates();
     const { data: currencies, isLoading: currenciesLoading, error: currenciesError } = useCurrencies();
+    const { data: userCountry, isLoading: userCountryLoading, error: userCountryError } = useUserCountry();
 
     return (
         <ExchangeContext.Provider
@@ -23,6 +25,9 @@ export default function App() {
                 currencies,
                 currenciesLoading,
                 currenciesError,
+                userCountry,
+                userCountryLoading,
+                userCountryError,
             }}
         >
             <Header />

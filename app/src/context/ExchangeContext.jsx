@@ -4,9 +4,14 @@ const ExchangeContext = React.createContext({
     currencies: [],
     currenciesLoading: true,
     currenciesError: null,
+
     rates: {},
     ratesLoading: true,
     ratesError: null,
+
+    userCountry: null,
+    userCountryLoading: true,
+    userCountryError: null,
 });
 
 export default ExchangeContext;
