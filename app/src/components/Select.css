@@ -13,17 +13,9 @@
     justify-content: space-between;
     gap: 0.5em;
     padding: 0.75em 1em;
-    background: var(--clr-neutral-700);
-    border: 1px solid var(--clr-neutral-400);
     color: var(--clr-neutral-50);
     font-size: 1rem;
     transition: var(--transition);
-
-    &:hover,
-    &:focus-visible {
-        background: var(--clr-neutral-600);
-        border-color: var(--clr-lime-500);
-    }
 }
 
 .select-trigger-icon {
