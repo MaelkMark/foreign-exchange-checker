@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "./Button";
 import {clsx} from "clsx"
 
 import "./StateButton.css";
@@ -9,15 +10,18 @@ const ButtonState = React.createContext({});
 
 export default function StateButton({
     children,
-    state = DEFAULT_STATE,
+    state = null,
     checked = false,
+    onClick,
+    className,
     ...props
 }) {
+    state ??= checked ?? DEFAULT_STATE;
     return (
         <ButtonState.Provider value={state}>
-            <button className={clsx("button", "statebutton", checked && "checked")} data-state={state} {...props}>
+            <Button className={clsx("statebutton", checked && "checked", className)} data-state={state} onClick={onClick} {...props}>
                 {children}
-            </button>
+            </Button>
         </ButtonState.Provider>
     );
 }

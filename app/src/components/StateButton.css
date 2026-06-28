@@ -2,17 +2,10 @@
     display: grid;
     align-items: center;
     justify-content: center;
-    background-color: transparent;
-    border: 0.07em solid var(--clr-lime-500);
-    color: var(--clr-neutral-50);
-
-    &:hover {
-        background-color: var(--clr-lime-800);
-    }
 
     &.checked {
-        background-color: var(--clr-lime-500);
-        color: var(--clr-neutral-900);
+        background-color: var(--clr-lime-500) !important;
+        color: var(--clr-neutral-900) !important;
     }
 
     &.checked:hover {
@@ -27,6 +20,7 @@
     align-items: center;
     gap: 0.5em;
     transition: var(--transition);
+    transition-duration: 0.1s;
 
     &[data-active="false"] {
         opacity: 0;
@@ -36,5 +30,6 @@
     svg {
         fill: currentColor;
         stroke: currentColor;
+        stroke-width: 0;
     }
 }
