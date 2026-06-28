@@ -11,6 +11,10 @@
     &.checked:hover {
         opacity: 0.8;
     }
+
+    &[data-disabled="true"], &:disabled {
+        opacity: 1;
+    }
 }
 
 .statebutton > div {
