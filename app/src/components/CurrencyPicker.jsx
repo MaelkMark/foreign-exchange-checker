@@ -9,28 +9,73 @@ import {
     useFilter,
     Autocomplete,
     ListBoxSection,
-    Header
+    Header,
 } from "react-aria-components";
 import Button from "./Button";
 import SearchField from "./SearchField";
 import ChevronDown from "../assets/images/icon-chevron-down.svg?react";
 import Check from "../assets/images/icon-check.svg?react";
+
+import ExchangeContext from "../context/ExchangeContext";
+
 import "./Select.css";
 import "./CurrencyPicker.css";
 
-export default function CurrencyPicker({ value, onChange, errorMessage, children, ...props }) {
+export default function CurrencyPicker({ value, onChange, errorMessage, ...props }) {
     const { contains } = useFilter({ sensitivity: "base" });
     const [search, setSearch] = React.useState("");
 
-    const childrenWithSearch = React.Children.map(children, child => {
-        if (!React.isValidElement(child) || child.type !== Category) {
-            return child;
-        }
-        return React.cloneElement(child, { search, filter: contains });
-    });
+    let { currencies, userCountry } = React.useContext(ExchangeContext);
+
+    currencies ??= [];
+
+    const popularCurrencies = React.useMemo(
+        () =>
+            [...(userCountry ? [userCountry.currency] : []), "USD", "EUR", "GBP"]
+                .map(code => currencies.find(c => c.code === code))
+                .filter(Boolean),
+        [currencies, userCountry],
+    );
+    const popularItems = React.useMemo(
+        () =>
+            popularCurrencies.map(currency => {
+                return (
+                    <Currency
+                        key={currency.code}
+                        code={currency.code}
+                        name={currency.name}
+                        iconSrc={currency.icon}
+                    />
+                );
+            }),
+        [popularCurrencies],
+    );
+    const otherCurrencies = React.useMemo(
+        () => currencies?.filter(currency => !popularCurrencies.includes(currency)) || [],
+        [currencies, popularCurrencies],
+    );
+
+    const otherItems = React.useMemo(
+        () =>
+            otherCurrencies.map(currency => (
+                <Currency
+                    key={currency.code}
+                    code={currency.code}
+                    name={currency.name}
+                    iconSrc={currency.icon}
+                />
+            )),
+        [otherCurrencies],
+    );
 
     return (
-        <AriaSelect className="select currency-picker" {...props} aria-label="Pick a currency" value={value} onChange={onChange}>
+        <AriaSelect
+            className="select currency-picker"
+            {...props}
+            aria-label="Pick a currency"
+            value={value}
+            onChange={onChange}
+        >
             <Button className="select-trigger">
                 <SelectValue className="select-value" />
                 <ChevronDown className="select-trigger-icon" />
@@ -43,7 +88,14 @@ export default function CurrencyPicker({ value, onChange, errorMessage, children
                         autoFocus
                         onInput={event => setSearch(event.target.value)}
                     />
-                    <ListBox className="select-listbox">{childrenWithSearch}</ListBox>
+                    <ListBox className="select-listbox">
+                        <Category label="Popular" search={search} filter={contains}>
+                            {popularItems}
+                        </Category>
+                        <Category label="Other currencies" search={search} filter={contains}>
+                            {otherItems}
+                        </Category>
+                    </ListBox>
                 </Popover>
             </Autocomplete>
             <FieldError className="select-error">{errorMessage}</FieldError>
@@ -56,7 +108,9 @@ function Category({ label, children, search = "", filter, ...props }) {
         if (!React.isValidElement(child)) {
             return false;
         }
-        const textValue = child.props.textValue ?? `${child.props.code ?? ""} ${child.props.name ?? child.props.code ?? ""}`;
+        const textValue =
+            child.props.textValue ??
+            `${child.props.code ?? ""} ${child.props.name ?? child.props.code ?? ""}`;
         return filter(textValue, search);
     }).length;
 
@@ -68,7 +122,7 @@ function Category({ label, children, search = "", filter, ...props }) {
             </Header>
             {children}
         </ListBoxSection>
-    )
+    );
 }
 
 function Currency({ code, name, iconSrc, ...props }) {
@@ -82,6 +136,3 @@ function Currency({ code, name, iconSrc, ...props }) {
         </ListBoxItem>
     );
 }
-
-CurrencyPicker.Currency = Currency;
-CurrencyPicker.Category = Category;

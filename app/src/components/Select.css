@@ -1,5 +1,5 @@
 .select {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     gap: 0.25rem;
 }
@@ -68,7 +68,7 @@
     border-radius: 4px;
     outline: none;
     cursor: pointer;
-    transition: var(--transition);
+    /* transition: var(--transition); */
     display: flex;
     justify-content: space-between;
     gap: 1ch;

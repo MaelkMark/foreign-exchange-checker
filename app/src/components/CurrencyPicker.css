@@ -22,7 +22,7 @@
         font-size: 0.75rem;
     }
 
-    .select-value {
+    .select-value:not([data-placeholder="true"]) {
         display: grid;
         grid-template-columns: 20px 3ch;
         align-items: center;
@@ -31,6 +31,10 @@
         .select-item-name, .select-item-check {
             display: none;
         }
+    }
+
+    .select-value[data-placeholder="true"] {
+        display: block;
     }
 
     .select-category-header {
