@@ -1,25 +1,46 @@
 import React from "react";
 import Button from "./Button";
-import {clsx} from "clsx"
+import clsx from "clsx";
 
 import "./StateButton.css";
 
 const DEFAULT_STATE = false;
-
 const ButtonState = React.createContext({});
 
 export default function StateButton({
     children,
     state = null,
     checked = false,
+    setChecked = null,
+    uncheckAfter = null,
+    disabledWhenChecked = false,
     onClick,
     className,
     ...props
 }) {
     state ??= checked ?? DEFAULT_STATE;
+
+    React.useEffect(() => {
+        if (!setChecked || !uncheckAfter || checked !== true) {
+            return;
+        }
+
+        const timeout = setTimeout(() => {
+            setChecked(false);
+        }, uncheckAfter);
+
+        return () => clearTimeout(timeout);
+    }, [checked, setChecked, uncheckAfter]);
+
     return (
         <ButtonState.Provider value={state}>
-            <Button className={clsx("statebutton", checked && "checked", className)} data-state={state} onClick={onClick} {...props}>
+            <Button
+                className={clsx("statebutton", checked && "checked", className)}
+                data-state={state}
+                onClick={onClick}
+                isDisabled={disabledWhenChecked && checked}
+                {...props}
+            >
                 {children}
             </Button>
         </ButtonState.Provider>
@@ -34,12 +55,12 @@ function State({ children, state = DEFAULT_STATE }) {
     return <div data-active={isActive}>{children}</div>;
 }
 
-function Off({children}) {
-    return <State state={false}>{children}</State>
+function Off({ children }) {
+    return <State state={false}>{children}</State>;
 }
 
-function On({children}) {
-    return <State state={true}>{children}</State>
+function On({ children }) {
+    return <State state={true}>{children}</State>;
 }
 
 StateButton.State = State;
