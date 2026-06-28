@@ -8,13 +8,14 @@ import flags from "../assets/images/flags/flags.json";
  */
 export default function useExchangeRates() {
     const REFRESH = 1000 * 60 * 60; // 1 hour in milliseconds
+    const BASE = "USD";
     const today = new Date().toISOString().split("T")[0];
     const yesterday = new Date(new Date().getTime() - 24 * 60 * 60 * 1000).toISOString().split("T")[0];
 
     return useQuery({
         queryKey: ["exchangeRates"],
         queryFn: async () => {
-            const url = `https://api.frankfurter.dev/v2/rates?from=${yesterday}&to=${today}&base=USD`;
+            const url = `https://api.frankfurter.dev/v2/rates?from=${yesterday}&to=${today}&base=${BASE}`;
             const res = await fetch(url);
             if (!res.ok) throw new Error("Failed to fetch rates");
             return res.json();
@@ -26,23 +27,24 @@ export default function useExchangeRates() {
             return [
                 ...Object.entries(Object.groupBy(data, item => item.quote))
                     .map(([currency, items]) => {
-                        const todayRate = items.find(item => item.date === today)?.rate ?? null;
+                        const latestRate = items[0]?.rate;
                         const yesterdayRate = items.find(item => item.date === yesterday)?.rate ?? null;
+                        const todayRate = items.find(item => item.date === today)?.rate ?? null;
                         const change =
                             todayRate !== null && yesterdayRate !== null
                                 ? (todayRate / yesterdayRate - 1) * 100
                                 : 0;
                         return {
-                            base: items[0]?.base ?? "USD",
+                            base: items[0]?.base ?? BASE,
                             currency,
-                            rate: todayRate ?? yesterdayRate,
+                            rate: latestRate,
                             change,
                         };
                     })
                     .filter(rate => {
                         return rate.currency.toUpperCase() in flags;
                     }),
-                { base: "USD", currency: "USD", rate: 1, change: 0 },
+                { base: BASE, currency: BASE, rate: 1, change: 0 },
             ];
         },
     });
