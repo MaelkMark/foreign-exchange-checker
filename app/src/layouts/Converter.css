@@ -29,27 +29,47 @@
         border: 1px solid var(--clr-neutral-500);
         padding: 1.25rem;
     }
-
+    
+    .amount-field {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+        container-type: inline-size;
+        position: relative;
+    }
+    
     .amount-label {
         text-transform: uppercase;
         color: var(--clr-neutral-100);
         font-size: 0.825rem;
     }
 
-    .amount-field {
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
+    .amount-focus-label {
+        position: absolute;
+        inset: 0;
     }
 
     .amount-input {
-        width: 100%;
+        field-sizing: content;
+        max-width: 100cqw;
         font-size: 2rem;
         font-weight: bold;
         padding: 0;
         border: none;
-        border-radius: 0.2em;
         color: var(--clr-neutral-50);
+        outline-offset: 0;
+        text-decoration: 1px solid transparent underline;
+        text-underline-offset: 0.15em;
+
+        &::placeholder {
+            color: var(--clr-neutral-200);
+            opacity: 1;
+        }
+
+        &:focus-visible, &:focus, &:hover {
+            text-decoration-color: var(--clr-neutral-200);
+        }
     }
 
     .amount-box--receive .amount-input {
@@ -84,9 +104,13 @@
     .converter-info {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         gap: 1rem;
         padding: 1rem 1.25rem;
         font-size: 0.75rem;
+        border-top: 1px dashed var(--clr-neutral-500);
+        border-image-source: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%232e2e2e' stroke-width='1' stroke-dasharray='4%2c4' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+        border-image-slice: 1;
 
         .button {
             font-size: 0.75rem;
@@ -105,6 +129,10 @@
     .converter-log {
         border-color: var(--clr-lime-500);
         background-color: transparent;
+
+        &:hover {
+            background-color: var(--clr-lime-800);
+        }
     }
 
     @container (width < 750px) {

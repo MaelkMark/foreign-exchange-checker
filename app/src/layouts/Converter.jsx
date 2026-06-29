@@ -25,18 +25,12 @@ export default function Converter() {
     const { exchangeRates, ratesLoading } = React.useContext(ExchangeContext);
     const { favorites, setFavorites, logs, setLogs } = React.useContext(UserContext);
 
-    const isFavorite = favorites.includes(`${sendCurrency}-${receiveCurrency}`);
-
-    console.log("favorites", favorites);
-    console.log("logs", logs);
-
-    let unitRate = 0;
-    if (!ratesLoading && exchangeRates) {
+    function getUnitRate(sendCurrency, receiveCurrency) {
+        if (!exchangeRates || ratesLoading || !sendCurrency || !receiveCurrency) return 0;
         const sendRate = exchangeRates.find(rate => rate.currency === sendCurrency).rate;
         const receiveRate = exchangeRates.find(rate => rate.currency === receiveCurrency).rate;
-        unitRate = receiveRate / sendRate;
+        return receiveRate / sendRate;
     }
-    const receiveAmount = unitRate * sendAmount;
 
     function toggleFavorite() {
         const pair = `${sendCurrency}-${receiveCurrency}`;
@@ -75,6 +69,12 @@ export default function Converter() {
         setReceiveCurrency(tempCurrency);
     }
 
+    const isFavorite = favorites.includes(`${sendCurrency}-${receiveCurrency}`);
+
+    const unitRate = getUnitRate(sendCurrency, receiveCurrency);
+    const receiveAmount = unitRate * sendAmount;
+    const isUnfilled = sendAmount === 0 || isNaN(sendAmount) || !sendCurrency || !receiveCurrency;
+
     return (
         <section className="converter">
             <h2>Check the rate</h2>
@@ -85,10 +85,12 @@ export default function Converter() {
                             className="amount-field"
                             value={sendAmount}
                             minValue={0}
-                            step={0.0001}
+                            step={0.001}
                             onChange={setSendAmount}
+                            placeholder={0}
                         >
                             <Label className="amount-label">Send</Label>
+                            <Label className="amount-focus-label"></Label>
                             <Input className="amount-input" />
                         </NumberField>
                         <CurrencyPicker value={sendCurrency} onChange={setSendCurrency} />
@@ -101,10 +103,12 @@ export default function Converter() {
                             className="amount-field"
                             value={receiveAmount}
                             minValue={0}
-                            step={0.0001}
+                            step={0.001}
+                            placeholder={0}
                             isReadOnly
                         >
                             <Label className="amount-label">Receive</Label>
+                            <Label className="amount-focus-label"></Label>
                             <Input className="amount-input" />
                         </NumberField>
                         <CurrencyPicker value={receiveCurrency} onChange={setReceiveCurrency} />
@@ -119,6 +123,7 @@ export default function Converter() {
                             className="converter-button converter-favorite"
                             checked={isFavorite}
                             onClick={() => toggleFavorite()}
+                            isDisabled={isUnfilled}
                         >
                             <StateButton.Off>
                                 <StarIcon />
@@ -136,6 +141,7 @@ export default function Converter() {
                             uncheckAfter={2000}
                             disabledWhenChecked={true}
                             onClick={() => toggleLog()}
+                            isDisabled={isUnfilled}
                         >
                             <StateButton.Off>Log conversion</StateButton.Off>
                             <StateButton.On>
