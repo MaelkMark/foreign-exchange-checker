@@ -13,6 +13,18 @@
     scrollbar-gutter: 0.5em;
     scrollbar-width: thin;
     padding-bottom: 1px; */
+    position: relative;
+
+    .react-aria-SelectionIndicator {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 1px;
+        width: 100%;
+        background-color: var(--clr-lime-500);
+        transition: var(--transition);
+        transition-property: translate, width;
+    }
 }
 
 .tabs-labels-measure {
@@ -41,7 +53,6 @@
 
 .tab-label--aria {
     padding: 0.5em 1em;
-    border-bottom: 1px solid transparent;
     position: relative;
     word-break: keep-all;
     white-space: nowrap;
@@ -87,31 +98,5 @@
         pointer-events: none;
         visibility: hidden;
         overflow: hidden;
-    }
-}
-
-@supports (
-    (anchor-name: --active-tab-label) and (anchor-scope: --active-tab-label) and
-        (top: anchor(--active-tab-label bottom))
-) {
-    .tab-label:has(div[data-active="true"]) {
-        border-color: transparent !important;
-        anchor-name: --active-tab-label;
-    }
-
-    .tabs-labels {
-        anchor-scope: --active-tab-label;
-        position: relative;
-    }
-
-    .tabs-labels::after {
-        content: "";
-        position: absolute;
-        transition: 0.2s;
-        height: 1px;
-        background-color: var(--clr-lime-500);
-        top: anchor(--active-tab-label bottom);
-        left: anchor(--active-tab-label left);
-        right: anchor(--active-tab-label right);
     }
 }

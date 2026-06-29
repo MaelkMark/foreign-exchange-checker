@@ -1,7 +1,8 @@
 import React from "react";
-import { Tabs as AriaTabs, TabList, Tab as AriaTab, TabPanel } from "react-aria-components";
+import { Tabs as AriaTabs, TabList, Tab as AriaTab, TabPanel, SelectionIndicator } from "react-aria-components";
 import Select from "./Select";
 import "./Tabs.css";
+import clsx from "clsx";
 
 export default function Tabs({ children }) {
     const wrapperRef = React.useRef(null);
@@ -84,19 +85,22 @@ export default function Tabs({ children }) {
             )}
 
             <TabList
-                className={`tabs-labels${labelsFit ? "" : " tabs-labels-measure"}`}
+                className={clsx("tabs-labels", !labelsFit && "tabs-labels-measure")}
                 ref={labelsRef}
                 aria-hidden={!labelsFit}
             >
                 {tabs.map(tab => (
                     <AriaTab key={tab.id} id={tab.id} className="tab-label tab-label--aria">
                         {({ isSelected }) => (
+                            <>
+                            <SelectionIndicator />
                             <div style={{ display: "contents" }} data-active={isSelected ? "true" : "false"}>
                                 <span className="tab-label-text">{tab.label}</span>
                                 {tab.notifications !== null && (
                                     <span className="tab-label-notifications">{tab.notifications}</span>
                                 )}
                             </div>
+                            </>
                         )}
                     </AriaTab>
                 ))}
