@@ -4,6 +4,8 @@ import clsx from "clsx";
 import "./SegmentedControl.css";
 
 export default function SegmentedControl({ children, selectedOption, onSelect, className = null, ...props }) {
+    console.log(selectedOption)
+    selectedOption = selectedOption instanceof Set ? selectedOption : new Set([selectedOption]);
     return (
         <ToggleButtonGroup
             className={clsx("segmented-control", className)}
