@@ -34,13 +34,40 @@
     border-radius: 8px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
     overflow: hidden;
-    animation: fadeIn 0.18s ease-out;
+    animation: fadeInBottom 0.18s ease-out;
     background: var(--clr-neutral-700);
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.625rem;
+
+    &[data-placement="top"] {
+        animation-name: fadeInTop;
+    }
 }
+
+@keyframes fadeInBottom {
+    from {
+        opacity: 0;
+        translate: 0 -1.5em;
+        scale: 0.98;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInTop {
+    from {
+        opacity: 0;
+        translate: 0 1.5em;
+        scale: 0.98;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 
 .search-field input {
     width: 100%;
@@ -88,15 +115,4 @@
 .select-error {
     color: var(--clr-red-500);
     font-size: 0.85em;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        translate: 0 -1.5em;
-        scale: 0.98;
-    }
-    to {
-        opacity: 1;
-    }
 }
