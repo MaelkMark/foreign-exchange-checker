@@ -12,7 +12,7 @@
         opacity: 0.8;
     }
 
-    &[data-disabled="true"], &:disabled {
+    &[data-disabled-hidden="true"]:is([data-disabled="true"], :disabled) {
         opacity: 1;
     }
 }

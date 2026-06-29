@@ -15,6 +15,7 @@ export default function StateButton({
     uncheckAfter = null,
     disabledWhenChecked = false,
     onClick,
+    isDisabled = false,
     className,
     ...props
 }) {
@@ -37,8 +38,9 @@ export default function StateButton({
             <Button
                 className={clsx("statebutton", checked && "checked", className)}
                 data-state={state}
+                data-disabled-hidden={disabledWhenChecked && checked}
+                isDisabled={isDisabled || (disabledWhenChecked && checked)}
                 onClick={onClick}
-                isDisabled={disabledWhenChecked && checked}
                 {...props}
             >
                 {children}
