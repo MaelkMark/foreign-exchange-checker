@@ -1,0 +1,43 @@
+.segmented-control {
+    display: inline-flex;
+    background-color: var(--clr-neutral-700);
+    font-size: 0.75rem;
+    border-radius: 0.6em;
+    padding: 0.16em;
+
+    &[data-disabled="true"] {
+        opacity: 0.7;
+        pointer-events: none;
+    }
+    
+    .segmented-control-item {
+        position: relative;
+        display: block;
+        z-index: 10;
+        padding: 1em 1.33em;
+        color: var(--clr-neutral-200);
+        transition: var(--transition);
+        z-index: 1;
+
+        &[data-selected="true"] {
+            color: var(--clr-neutral-50);
+        }
+
+        &:hover {
+            color: var(--clr-neutral-50);
+        }
+    }
+
+    .react-aria-SelectionIndicator {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        background-color: var(--clr-neutral-500);
+        transition: var(--transition);
+        transition-property: translate;
+        z-index: -1;
+    }
+}
