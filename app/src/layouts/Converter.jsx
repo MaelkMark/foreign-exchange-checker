@@ -17,13 +17,19 @@ import UserContext from "../context/UserContext";
 import "./Converter.css";
 
 export default function Converter() {
-    const [sendCurrency, setSendCurrency] = React.useState("USD");
     const [sendAmount, setSendAmount] = React.useState(0);
-    const [receiveCurrency, setReceiveCurrency] = React.useState("EUR");
     const [loggedFeedback, setLoggedFeedback] = React.useState(false);
-
     const { exchangeRates, ratesLoading } = React.useContext(ExchangeContext);
-    const { favorites, setFavorites, logs, setLogs } = React.useContext(UserContext);
+    const {
+        favorites,
+        setFavorites,
+        logs,
+        setLogs,
+        sendCurrency,
+        setSendCurrency,
+        receiveCurrency,
+        setReceiveCurrency,
+    } = React.useContext(UserContext);
 
     function getUnitRate(sendCurrency, receiveCurrency) {
         if (!exchangeRates || ratesLoading || !sendCurrency || !receiveCurrency) return 0;

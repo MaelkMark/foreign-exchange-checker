@@ -20,6 +20,8 @@ export default function App() {
 
     const [favorites, setFavorites] = useLocalStorage("favorites", []);
     const [logs, setLogs] = useLocalStorage("logs", []);
+    const [sendCurrency, setSendCurrency] = React.useState("USD");
+    const [receiveCurrency, setReceiveCurrency] = React.useState("EUR");
 
     return (
         <ExchangeContext.Provider
@@ -42,6 +44,10 @@ export default function App() {
                     setFavorites: setFavorites,
                     logs: logs,
                     setLogs: setLogs,
+                    sendCurrency: sendCurrency,
+                    setSendCurrency: setSendCurrency,
+                    receiveCurrency: receiveCurrency,
+                    setReceiveCurrency: setReceiveCurrency,
                 }}
             >
                 <main className="main">
