@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.101.1",
+    "apexcharts": "^5.15.2",
     "clsx": "^2.1.1",
     "country-json": "^2.3.0",
     "react": "^19.2.6",
+    "react-apexcharts": "^2.1.1",
     "react-aria-components": "^1.19.0",
     "react-dom": "^19.2.6"
   },
