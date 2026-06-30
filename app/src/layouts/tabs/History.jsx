@@ -4,7 +4,6 @@ import Chart from "react-apexcharts";
 import SegmentedControl from "../../components/SegmentedControl";
 
 import useHistoricalRates from "../../hooks/useHistoricalRates";
-import ExchangeContext from "../../context/ExchangeContext";
 import UserContext from "../../context/UserContext";
 
 import "./History.css";
@@ -12,55 +11,126 @@ import "./History.css";
 export default function History() {
     const [interval, setInterval] = React.useState("1D");
     const { sendCurrency: baseCurrency, receiveCurrency: targetCurrency } = React.useContext(UserContext);
-    const { data, isLoading, isError } = useHistoricalRates({
+    const { data } = useHistoricalRates({
         base: baseCurrency,
         target: targetCurrency,
         interval,
     });
 
+    const chartData = React.useMemo(
+        () =>
+            data?.map(rate => ({
+                x: new Date(rate.date).getTime(),
+                y: rate.rate,
+            })) || [],
+        [data],
+    );
+
     const chartOptions = {
         chart: {
             type: "area",
-            height: 350,
+            background: "transparent",
+            toolbar: {
+                show: false,
+            },
             zoom: {
                 enabled: false,
             },
         },
+        colors: ["#CEF739"],
         dataLabels: {
             enabled: false,
         },
         stroke: {
             curve: "straight",
+            width: 2.5,
         },
-
-        title: {
-            text: "Fundamental Analysis of Stocks",
-            align: "left",
+        fill: {
+            type: "gradient",
+            gradient: {
+                shade: "dark",
+                shadeIntensity: 0.35,
+                type: "vertical",
+                gradientToColors: ["#283300"],
+                inverseColors: false,
+                opacityFrom: 0.8,
+                opacityTo: 0,
+                stops: [0, 100],
+            },
         },
-        subtitle: {
-            text: "Price Movements",
-            align: "left",
+        grid: {
+            borderColor: "#2E2E2E",
+            strokeDashArray: 3,
+            xaxis: {
+                lines: {
+                    show: false,
+                },
+            },
+            yaxis: {
+                lines: {
+                    show: true,
+                },
+            },
+            padding: {
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+            },
         },
-        labels: data?.map(rate => rate.date) || [],
+        markers: {
+            size: 0,
+            hover: {
+                size: 0,
+            },
+        },
         xaxis: {
-            type: "date",
+            type: "datetime",
             tickAmount: 5,
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: false,
+            },
+            crosshairs: {
+                show: false,
+            },
             labels: {
-                hideOverlappingLabels: true,
+                datetimeUTC: false,
+                format: "MMM dd",
+                style: {
+                    colors: "#9D9D9D",
+                    fontSize: "10px",
+                    fontWeight: 400,
+                },
             },
         },
         yaxis: {
-            opposite: true,
+            tickAmount: 2,
+            decimalsInFloat: 4,
+            labels: {
+                formatter: value => value.toFixed(4),
+                offsetX: -4,
+                style: {
+                    colors: "#9D9D9D",
+                    fontSize: "10px",
+                    fontWeight: 400,
+                },
+            },
+        },
+        tooltip: {
+            theme: "dark",
         },
         legend: {
-            horizontalAlign: "left",
+            show: false,
         },
     };
 
     const series = [
         {
             name: `${baseCurrency}/${targetCurrency}`,
-            data: data?.map(rate => rate.rate) || [],
+            data: chartData,
         },
     ];
 
@@ -86,7 +156,9 @@ export default function History() {
                     5Y
                 </SegmentedControl.Item>
             </SegmentedControl>
-            <Chart options={chartOptions} series={series} type="area" height={350} />
+            <div className="history__chart">
+                <Chart options={chartOptions} series={series} type="area" height={300} />
+            </div>
         </div>
     );
 }
