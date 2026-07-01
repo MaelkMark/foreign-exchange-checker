@@ -19,24 +19,24 @@ export default function Compare() {
         React.useContext(UserContext);
     const loading = ratesLoading || currenciesLoading || !exchangeRates || !currencies;
     return (
-        <div className="compare">
-            <div className="compare-header">
-                <div>
+        <div className="list compare">
+            <div className="list-header">
+                <div className="list-header-left">
                     <span>Multi-currency</span>
-                    <span className="compare-header-send">
+                    <span className="list-header-highlight">
                         {Intl.NumberFormat().format(sendAmount)} from {sendCurrency}
                     </span>
                 </div>
-                <div className="compare-header-pairs">{currencies?.length || 0} pairs</div>
+                <div className="list-header-total">{currencies?.length || 0} pairs</div>
             </div>
-            <div className="compare-pairs-wrapper">
-                <div className={clsx("compare-pairs", loading && "loading")}>
+            <div className="list-wrapper">
+                <div className={clsx("list-items", loading && "loading")}>
                     {!loading &&
                         currencies.map(currency => {
                             if (currency.code === sendCurrency) return null;
                             const unitRate = getUnitRate(exchangeRates, sendCurrency, currency.code);
                             return (
-                                <div key={currency.code} className="compare-pair">
+                                <div key={currency.code} className="list-item">
                                     <img
                                         className="pair-icon"
                                         style={{ gridArea: "icon" }}
