@@ -21,6 +21,7 @@ export default function App() {
     const [favorites, setFavorites] = useLocalStorage("favorites", []);
     const [logs, setLogs] = useLocalStorage("logs", []);
     const [sendCurrency, setSendCurrency] = React.useState("USD");
+    const [sendAmount, setSendAmount] = React.useState(0);
     const [receiveCurrency, setReceiveCurrency] = React.useState("EUR");
 
     return (
@@ -46,6 +47,8 @@ export default function App() {
                     setLogs: setLogs,
                     sendCurrency: sendCurrency,
                     setSendCurrency: setSendCurrency,
+                    sendAmount: sendAmount,
+                    setSendAmount: setSendAmount,
                     receiveCurrency: receiveCurrency,
                     setReceiveCurrency: setReceiveCurrency,
                 }}

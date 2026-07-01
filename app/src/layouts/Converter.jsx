@@ -14,10 +14,11 @@ import CheckIcon from "../assets/images/icon-check.svg?react";
 import ExchangeContext from "../context/ExchangeContext";
 import UserContext from "../context/UserContext";
 
+import { getUnitRate, toggleFavorite } from "../utils/utils";
+
 import "./Converter.css";
 
 export default function Converter() {
-    const [sendAmount, setSendAmount] = React.useState(0);
     const [loggedFeedback, setLoggedFeedback] = React.useState(false);
     const { exchangeRates, ratesLoading } = React.useContext(ExchangeContext);
     const {
@@ -27,25 +28,11 @@ export default function Converter() {
         setLogs,
         sendCurrency,
         setSendCurrency,
+        sendAmount,
+        setSendAmount,
         receiveCurrency,
         setReceiveCurrency,
     } = React.useContext(UserContext);
-
-    function getUnitRate(sendCurrency, receiveCurrency) {
-        if (!exchangeRates || ratesLoading || !sendCurrency || !receiveCurrency) return 0;
-        const sendRate = exchangeRates.find(rate => rate.currency === sendCurrency).rate;
-        const receiveRate = exchangeRates.find(rate => rate.currency === receiveCurrency).rate;
-        return receiveRate / sendRate;
-    }
-
-    function toggleFavorite() {
-        const pair = `${sendCurrency}-${receiveCurrency}`;
-        if (favorites.includes(pair)) {
-            setFavorites(favorites.filter(fav => fav !== pair));
-        } else {
-            setFavorites([...favorites, pair]);
-        }
-    }
 
     function getLog() {
         return {
@@ -77,7 +64,7 @@ export default function Converter() {
 
     const isFavorite = favorites.includes(`${sendCurrency}-${receiveCurrency}`);
 
-    const unitRate = getUnitRate(sendCurrency, receiveCurrency);
+    const unitRate = getUnitRate(exchangeRates, sendCurrency, receiveCurrency);
     const receiveAmount = unitRate * sendAmount;
     const isUnfilled = sendAmount === 0 || isNaN(sendAmount) || !sendCurrency || !receiveCurrency;
 
@@ -128,7 +115,7 @@ export default function Converter() {
                         <StateButton
                             className="converter-button converter-favorite"
                             checked={isFavorite}
-                            onClick={() => toggleFavorite()}
+                            onClick={() => toggleFavorite(favorites, setFavorites, sendCurrency, receiveCurrency)}
                             isDisabled={isUnfilled}
                         >
                             <StateButton.Off>
