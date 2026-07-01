@@ -1,0 +1,7 @@
+.tabs-wrapper {
+    flex-grow: 1;
+
+    .tabs-contents {
+        flex-grow: 1;
+    }
+}
