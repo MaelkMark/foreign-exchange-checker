@@ -1,0 +1,26 @@
+.favorites {
+    .list-item {
+        grid-template-columns: 1fr auto auto;
+        grid-template-areas:
+            "pair rate favorite"
+            "pair change favorite";
+    }
+
+    .favorite-pair {
+        font-size: 0.875rem;
+    }
+
+    .favorite-rate {
+        font-size: 1rem;
+        align-self: end;
+    }
+    
+    .favorite-change {
+        font-size: 0.625rem;
+        align-self: start;
+    }
+
+    .favorite-change, .favorite-rate {
+        text-align: right;
+    }
+}
