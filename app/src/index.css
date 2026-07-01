@@ -25,6 +25,12 @@
     font-family: "Jet Brains Mono" !important;
     scrollbar-color: var(--clr-neutral-400) var(--clr-neutral-900);
     scrollbar-width: thin;
+    outline: 0.07em solid transparent;
+}
+
+*:focus-visible {
+    outline: 0.07em solid var(--clr-lime-500);
+    outline-offset: 0.19em;
 }
 
 body {
@@ -44,17 +50,12 @@ body {
 
 :is(button, input) {
     transition: var(--transition);
-    outline: 0.07em solid transparent;
     border: none;
     background: none;
     color: inherit;
     border-radius: 0.5em;
-
-    &:focus-visible {
-        outline: 0.07em solid var(--clr-lime-500);
-        outline-offset: 0.19em;
-    }
 }
+
 
 button {
     cursor: pointer;
@@ -92,17 +93,20 @@ h1, h2, h3, h4, h5, h6 {
 
 .loading {
     position: relative;
+    color: transparent !important;
         
         &::after {
+            --clr-bg: var(--clr-neutral-700);
+            --clr-shine: var(--clr-neutral-600);
             content: "";
             position: absolute;
             inset: 0;
             border-radius: 1.25rem;
             background: linear-gradient(
                 110deg,
-                var(--clr-neutral-700) 40%,
-                var(--clr-neutral-600) 45% 55%,
-                var(--clr-neutral-700) 60%
+                var(--clr-bg) 40%,
+                var(--clr-shine) 45% 55%,
+                var(--clr-bg) 60%
             );
             animation: gradient-loading 1.5s cubic-bezier(0.149, 0.562, 0.858, 0.421) infinite;
             background-size: 200% 100%;
