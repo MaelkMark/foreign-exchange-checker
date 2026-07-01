@@ -13,3 +13,9 @@ export function toggleFavorite(favorites, setFavorites, sendCurrency, receiveCur
         setFavorites([...favorites, pair]);
     }
 }
+
+export function fixedLengthNumber(num, length, includeSign = false) {
+    const sign = num < 0 ? "-" : includeSign ? "+" : "";
+    const numStr = Math.abs(parseFloat(num)).toFixed(length);
+    return sign + numStr.slice(0, length);
+}

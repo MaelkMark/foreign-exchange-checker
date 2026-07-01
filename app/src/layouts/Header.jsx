@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import { fixedLengthNumber } from "../utils/utils";
 
 import Logo from "../assets/images/logo.svg?react";
 import Marquee from "../components/Marquee";
@@ -7,12 +8,6 @@ import Spinner from "../components/Loader";
 
 import "./Header.css";
 import ExchangeContext from "../context/ExchangeContext.jsx";
-
-function fixedLengthNumber(num, length, includeSign = false) {
-    const sign = num < 0 ? "-" : includeSign ? "+" : "";
-    const numStr = Math.abs(parseFloat(num)).toFixed(length);
-    return sign + numStr.slice(0, length);
-}
 
 export default function Header() {
     const { currencies, currenciesLoading, currenciesError, exchangeRates, ratesLoading, ratesError } =

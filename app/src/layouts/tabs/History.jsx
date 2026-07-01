@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import { fixedLengthNumber } from "../../utils/utils";
 
 import Chart from "react-apexcharts";
 import SegmentedControl from "../../components/SegmentedControl";
@@ -166,8 +167,7 @@ export default function History() {
                                 change >= 0 ? "change-up" : "change-down",
                             )}
                         >
-                            {change >= 0 ? "+" : "-"}
-                            {Math.abs(change).toFixed(4)}
+                            {fixedLengthNumber(change, 4, true)}
                         </div>
                     </div>
                     <div className="history-stat">
@@ -179,7 +179,7 @@ export default function History() {
                                 changePercentage >= 0 ? "change-up" : "change-down",
                             )}
                         >
-                            {changePercentage >= 0 ? "▲" : "▼"} {Math.abs(changePercentage).toFixed(2)}%
+                            {changePercentage >= 0 ? "▲" : "▼"} {fixedLengthNumber(changePercentage, 4, true)}%
                         </div>
                     </div>
                 </div>
