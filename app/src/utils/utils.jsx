@@ -17,5 +17,11 @@ export function toggleFavorite(favorites, setFavorites, sendCurrency, receiveCur
 export function fixedLengthNumber(num, length, includeSign = false) {
     const sign = num < 0 ? "-" : includeSign ? "+" : "";
     const numStr = Math.abs(parseFloat(num)).toFixed(length);
-    return sign + numStr.slice(0, length);
+    const decimalIndex = numStr.indexOf(".");
+    return (
+        sign +
+        (length <= decimalIndex + 1
+            ? Math.round(numStr)
+            : numStr.slice(0, length))
+    );
 }
