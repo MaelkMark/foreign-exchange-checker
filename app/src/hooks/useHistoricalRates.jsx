@@ -48,8 +48,8 @@ export default function useHistoricalRates({ base, target, interval }) {
             return data
                 .filter(rate => new Date(rate.date) >= new Date(from))
                 .map(rate => ({
-                    date: new Date(rate.date).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-                    rate: rate.rate,
+                    x: new Date(rate.date).getTime(),
+                    y: rate.rate,
                 }));
         },
     });

@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 
 import Chart from "react-apexcharts";
 import SegmentedControl from "../../components/SegmentedControl";
@@ -9,22 +10,13 @@ import UserContext from "../../context/UserContext";
 import "./History.css";
 
 export default function History() {
-    const [interval, setInterval] = React.useState("1D");
+    const [interval, setInterval] = React.useState("1M");
     const { sendCurrency: baseCurrency, receiveCurrency: targetCurrency } = React.useContext(UserContext);
-    const { data } = useHistoricalRates({
+    const { data, isLoading: dataLoading } = useHistoricalRates({
         base: baseCurrency,
         target: targetCurrency,
         interval,
     });
-
-    const chartData = React.useMemo(
-        () =>
-            data?.map(rate => ({
-                x: new Date(rate.date).getTime(),
-                y: rate.rate,
-            })) || [],
-        [data],
-    );
 
     const chartOptions = {
         chart: {
@@ -60,7 +52,7 @@ export default function History() {
         },
         grid: {
             borderColor: "#2E2E2E",
-            strokeDashArray: 3,
+            strokeDashArray: 4,
             xaxis: {
                 lines: {
                     show: false,
@@ -72,10 +64,10 @@ export default function History() {
                 },
             },
             padding: {
-                left: 0,
+                left: 16,
                 right: 0,
                 top: 0,
-                bottom: 0,
+                bottom: 16,
             },
         },
         markers: {
@@ -97,6 +89,8 @@ export default function History() {
                 show: false,
             },
             labels: {
+                minHeight: 0,
+                maxHeight: 4,
                 datetimeUTC: false,
                 format: "MMM dd",
                 style: {
@@ -105,13 +99,18 @@ export default function History() {
                     fontWeight: 400,
                 },
             },
+            tooltip: {
+                enabled: false,
+            },
         },
         yaxis: {
             tickAmount: 2,
             decimalsInFloat: 4,
             labels: {
+                align: "left",
+                minWidth: 0,
+                maxWidth: 37,
                 formatter: value => value.toFixed(4),
-                offsetX: -4,
                 style: {
                     colors: "#9D9D9D",
                     fontSize: "10px",
@@ -121,42 +120,91 @@ export default function History() {
         },
         tooltip: {
             theme: "dark",
+            shared: true,
+            x: { format: "MMM dd, yyyy" },
         },
         legend: {
             show: false,
         },
     };
 
+    const chartSteps = data?.length ? Math.max(1, Math.floor(data.length / 370)) : 1;
     const series = [
         {
             name: `${baseCurrency}/${targetCurrency}`,
-            data: chartData,
+            data: data?.filter((_, index) => index % chartSteps === 0) || [],
         },
     ];
 
+    const openRate = data?.[0]?.y || 0;
+    const lastRate = data?.[data.length - 1]?.y || 0;
+    const change = lastRate - openRate;
+    const changePercentage = openRate && lastRate ? (lastRate / openRate - 1) * 100 : 0;
+
     return (
         <div className="history">
-            <SegmentedControl selectedOption={interval} onSelect={setInterval}>
-                <SegmentedControl.Item id="1D" value="1D">
-                    1D
-                </SegmentedControl.Item>
-                <SegmentedControl.Item id="1W" value="1W">
-                    1W
-                </SegmentedControl.Item>
-                <SegmentedControl.Item id="1M" value="1M">
-                    1M
-                </SegmentedControl.Item>
-                <SegmentedControl.Item id="3M" value="3M">
-                    3M
-                </SegmentedControl.Item>
-                <SegmentedControl.Item id="1Y" value="1Y">
-                    1Y
-                </SegmentedControl.Item>
-                <SegmentedControl.Item id="5Y" value="5Y">
-                    5Y
-                </SegmentedControl.Item>
-            </SegmentedControl>
-            <div className="history__chart">
+            <div className="history-header">
+                <div className="history-stats">
+                    <div className="history-stat">
+                        <div className="history-stat-label">Open</div>
+                        <div className={clsx("history-stat-value", dataLoading && "loading")}>
+                            {openRate.toFixed(4)}
+                        </div>
+                    </div>
+                    <div className="history-stat">
+                        <div className="history-stat-label">Last</div>
+                        <div className={clsx("history-stat-value", dataLoading && "loading")}>
+                            {lastRate.toFixed(4)}
+                        </div>
+                    </div>
+                    <div className="history-stat">
+                        <div className="history-stat-label">Change</div>
+                        <div
+                            className={clsx(
+                                "history-stat-value",
+                                dataLoading && "loading",
+                                change >= 0 ? "change-up" : "change-down",
+                            )}
+                        >
+                            {change >= 0 ? "+" : "-"}
+                            {Math.abs(change).toFixed(4)}
+                        </div>
+                    </div>
+                    <div className="history-stat">
+                        <div className="history-stat-label">% Change</div>
+                        <div
+                            className={clsx(
+                                "history-stat-value",
+                                dataLoading && "loading",
+                                changePercentage >= 0 ? "change-up" : "change-down",
+                            )}
+                        >
+                            {changePercentage >= 0 ? "▲" : "▼"} {Math.abs(changePercentage).toFixed(2)}%
+                        </div>
+                    </div>
+                </div>
+                <SegmentedControl selectedOption={interval} onSelect={setInterval}>
+                    <SegmentedControl.Item id="1D" value="1D">
+                        1D
+                    </SegmentedControl.Item>
+                    <SegmentedControl.Item id="1W" value="1W">
+                        1W
+                    </SegmentedControl.Item>
+                    <SegmentedControl.Item id="1M" value="1M">
+                        1M
+                    </SegmentedControl.Item>
+                    <SegmentedControl.Item id="3M" value="3M">
+                        3M
+                    </SegmentedControl.Item>
+                    <SegmentedControl.Item id="1Y" value="1Y">
+                        1Y
+                    </SegmentedControl.Item>
+                    <SegmentedControl.Item id="5Y" value="5Y">
+                        5Y
+                    </SegmentedControl.Item>
+                </SegmentedControl>
+            </div>
+            <div className={clsx("history-chart", dataLoading && "loading")}>
                 <Chart options={chartOptions} series={series} type="area" height={300} />
             </div>
         </div>
