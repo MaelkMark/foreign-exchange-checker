@@ -4,19 +4,15 @@ import clsx from "clsx";
 import ExchangeContext from "../../context/ExchangeContext";
 import UserContext from "../../context/UserContext";
 
-import StateButton from "../../components/StateButton";
+import FavButton from "../../components/FavButton";
 
-import StarIcon from "../../assets/images/icon-star.svg?react";
-import StarFilledIcon from "../../assets/images/icon-star-filled.svg?react";
-
-import { getUnitRate, toggleFavorite } from "../../utils/utils";
+import { getUnitRate } from "../../utils/utils";
 
 import "./Compare.css";
 
 export default function Compare() {
     const { exchangeRates, ratesLoading, currencies, currenciesLoading } = React.useContext(ExchangeContext);
-    const { favorites, setFavorites, sendCurrency, sendAmount, receiveCurrency } =
-        React.useContext(UserContext);
+    const { favorites, setFavorites, sendCurrency, sendAmount } = React.useContext(UserContext);
     const loading = ratesLoading || currenciesLoading || !exchangeRates || !currencies;
     return (
         <div className="list compare">
@@ -55,26 +51,12 @@ export default function Compare() {
                                     <div className="pair-rate" style={{ gridArea: "rate" }}>
                                         @ {unitRate}
                                     </div>
-                                    <StateButton
-                                        className="pair-favorite"
-                                        style={{ gridArea: "favorite" }}
-                                        checked={favorites.includes(`${sendCurrency}-${currency.code}`)}
-                                        onClick={() =>
-                                            toggleFavorite(
-                                                favorites,
-                                                setFavorites,
-                                                sendCurrency,
-                                                currency.code,
-                                            )
-                                        }
-                                    >
-                                        <StateButton.Off>
-                                            <StarIcon />
-                                        </StateButton.Off>
-                                        <StateButton.On>
-                                            <StarFilledIcon />
-                                        </StateButton.On>
-                                    </StateButton>
+                                    <FavButton
+                                        favorites={favorites}
+                                        setFavorites={setFavorites}
+                                        sendCurrency={sendCurrency}
+                                        currency={currency}
+                                    />
                                 </div>
                             );
                         })}
