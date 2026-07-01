@@ -10,14 +10,6 @@ import UserContext from "../../context/UserContext";
 import "./History.css";
 
 export default function History() {
-    const [interval, setInterval] = React.useState("1M");
-    const { sendCurrency: baseCurrency, receiveCurrency: targetCurrency } = React.useContext(UserContext);
-    const { data, isLoading: dataLoading } = useHistoricalRates({
-        base: baseCurrency,
-        target: targetCurrency,
-        interval,
-    });
-
     const chartOptions = {
         chart: {
             type: "area",
@@ -128,6 +120,14 @@ export default function History() {
         },
     };
 
+    const [interval, setInterval] = React.useState("1M");
+    const { sendCurrency: baseCurrency, receiveCurrency: targetCurrency } = React.useContext(UserContext);
+    const { data, isLoading: dataLoading } = useHistoricalRates({
+        base: baseCurrency,
+        target: targetCurrency,
+        interval,
+    });
+
     const chartSteps = data?.length ? Math.max(1, Math.floor(data.length / 370)) : 1;
     const series = [
         {
@@ -205,6 +205,25 @@ export default function History() {
                 </SegmentedControl>
             </div>
             <div className={clsx("history-chart", dataLoading && "loading")}>
+                <div className="history-chart-header">
+                    <div className="history-chart-currencies">
+                        {baseCurrency}/{targetCurrency}
+                    </div>
+                    <div className="history-chart-info">
+                        {data?.[data.length - 1]?.y.toFixed(4)}
+                        {" · "}
+                        {data?.[data.length - 1]?.x &&
+                            new Date(data[data.length - 1].x).toLocaleDateString(undefined, {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                                hour: "numeric",
+                                minute: "numeric",
+                                hour12: false,
+                                timeZoneName: "short",
+                            })}
+                    </div>
+                </div>
                 <Chart options={chartOptions} series={series} type="area" height={300} />
             </div>
         </div>
