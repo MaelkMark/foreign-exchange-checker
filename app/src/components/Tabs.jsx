@@ -4,7 +4,7 @@ import Select from "./Select";
 import "./Tabs.css";
 import clsx from "clsx";
 
-export default function Tabs({ children }) {
+export default function Tabs({ children, className, initialTab, ...props }) {
     const wrapperRef = React.useRef(null);
     const labelsRef = React.useRef(null);
     const [labelsFit, setLabelsFit] = React.useState(true);
@@ -13,7 +13,7 @@ export default function Tabs({ children }) {
             React.Children.toArray(children)
                 .filter(child => React.isValidElement(child))
                 .map((child, index) => {
-                    const id = `tab-${index}`;
+                    const id = child.props.id ? child.props.id.toString() : `tab-${index}`;
                     return {
                         id,
                         label: child.props.label || `Tab ${index + 1}`,
@@ -23,8 +23,11 @@ export default function Tabs({ children }) {
                 }),
         [children],
     );
-    const [selectedKey, setSelectedKey] = React.useState(null);
-    const activeSelectedKey = tabs.some(tab => tab.id === selectedKey) ? selectedKey : (tabs[0]?.id ?? null);
+    const initialSelectedKey = initialTab !== null && initialTab !== undefined ? initialTab.toString() : null;
+    const [selectedKey, setSelectedKey] = React.useState(initialSelectedKey);
+    const activeSelectedKey = tabs.some(tab => tab.id === selectedKey)
+        ? selectedKey
+        : (tabs.some(tab => tab.id === initialSelectedKey) ? initialSelectedKey : (tabs[0]?.id ?? null));
 
     React.useEffect(() => {
         function handleResize() {
@@ -56,10 +59,11 @@ export default function Tabs({ children }) {
 
     return (
         <AriaTabs
-            className="tabs-wrapper"
+            className={clsx("tabs-wrapper", className)}
             ref={wrapperRef}
             selectedKey={activeSelectedKey}
             onSelectionChange={handleSelectionChange}
+            {...props}
         >
             {!labelsFit && (
                 <Select
