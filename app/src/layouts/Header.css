@@ -82,12 +82,4 @@
     .ticker-item-rates {
         color: var(--clr-neutral-50);
     }
-
-    .ticker-item-change[data-change="up"] {
-        color: var(--clr-green-500);
-    }
-
-    .ticker-item-change[data-change="down"] {
-        color: var(--clr-red-500);
-    }
 }

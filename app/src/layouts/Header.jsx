@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 
 import Logo from "../assets/images/logo.svg?react";
 import Marquee from "../components/Marquee";
@@ -60,8 +61,10 @@ export default function Header() {
                                         </div>
                                         <div className="ticker-item-rates">{value}</div>
                                         <div
-                                            className="ticker-item-change"
-                                            data-change={rate.change > 0 ? "up" : "down"}
+                                            className={clsx(
+                                                "ticker-item-change",
+                                                rate.change > 0 ? "change-up" : "change-down",
+                                            )}
                                         >
                                             {rate.change > 0 ? "▲ " : "▼ "}
                                             {change}%
