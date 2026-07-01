@@ -117,3 +117,12 @@ h1, h2, h3, h4, h5, h6 {
         background-position-x: 0%;
     }
 }
+
+
+.change-up {
+    color: var(--clr-green-500);
+}
+
+.change-down {
+    color: var(--clr-red-500);
+}

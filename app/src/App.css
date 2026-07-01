@@ -6,11 +6,3 @@
     flex-direction: column;
     gap: 2rem;
 }
-
-.change-up {
-    color: var(--clr-green-500);
-}
-
-.change-down {
-    color: var(--clr-red-500);
-}
