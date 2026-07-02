@@ -25,3 +25,21 @@ export function fixedLengthNumber(num, length, includeSign = false) {
             : numStr.slice(0, length))
     );
 }
+
+export function getLog(sendCurrency, receiveCurrency, sendAmount, receiveAmount) {
+        return {
+            datetime: new Date().toISOString(),
+            sendCurrency,
+            receiveCurrency,
+            sendAmount,
+            receiveAmount,
+        };
+    }
+
+export function addToLog(logs, setLogs, log) {
+    setLogs([...logs, log]);
+}
+
+export function removeFromLog(logs, setLogs, log) {
+    setLogs(logs.filter(l => JSON.stringify(l) !== JSON.stringify(log)));
+}

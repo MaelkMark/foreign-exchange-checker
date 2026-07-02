@@ -14,7 +14,7 @@ import CheckIcon from "../assets/images/icon-check.svg?react";
 import ExchangeContext from "../context/ExchangeContext";
 import UserContext from "../context/UserContext";
 
-import { getUnitRate, toggleFavorite } from "../utils/utils";
+import { getUnitRate, toggleFavorite, getLog, addToLog } from "../utils/utils";
 
 import "./Converter.css";
 
@@ -34,25 +34,10 @@ export default function Converter() {
         setReceiveCurrency,
     } = React.useContext(UserContext);
 
-    function getLog() {
-        return {
-            datetime: new Date().toISOString(),
-            sendCurrency,
-            receiveCurrency,
-            sendAmount,
-            receiveAmount,
-        };
-    }
-
-    function toggleLog() {
-        const log = getLog();
-        if (logs.find(l => JSON.stringify(l) === JSON.stringify(log))) {
-            setLogs(logs.filter(l => JSON.stringify(l) !== JSON.stringify(log)));
-            setLoggedFeedback(false);
-        } else {
-            setLogs([...logs, log]);
-            setLoggedFeedback(true);
-        }
+    function log() {
+        const log = getLog(sendCurrency, receiveCurrency, sendAmount, receiveAmount);
+        addToLog(logs, setLogs, log);
+        setLoggedFeedback(true);
     }
 
     function swapCurrencies() {
@@ -133,7 +118,7 @@ export default function Converter() {
                             setChecked={setLoggedFeedback}
                             uncheckAfter={2000}
                             disabledWhenChecked={true}
-                            onClick={() => toggleLog()}
+                            onClick={() => log()}
                             isDisabled={isUnfilled}
                         >
                             <StateButton.Off>Log conversion</StateButton.Off>
