@@ -1,0 +1,39 @@
+.logs {
+    .list-header-right {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .logs-clear-all {
+        font-size: 0.75rem;
+    }
+
+    .list-item {
+        display: grid;
+        grid-template-columns: 8ch 1fr auto auto auto;
+    }
+
+    .log-date {
+        color: var(--clr-neutral-200);
+        font-size: 0.875rem;
+    }
+
+    .log-currencies {
+        color: var(--clr-neutral-50);
+        font-size: 0.875rem;
+    }
+
+    .log-amount-send, .log-amount-receive {
+        font-size: 1rem;
+        text-align: right;
+    }
+
+    .log-amount-send {
+        color: var(--clr-neutral-100);
+    }
+
+    .log-amount-receive {
+        color: var(--clr-lime-500);
+    }
+}
