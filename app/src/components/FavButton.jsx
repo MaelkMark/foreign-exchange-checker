@@ -6,8 +6,6 @@ import StarFilledIcon from "../assets/images/icon-star-filled.svg?react";
 import { toggleFavorite } from "../utils/utils";
 import clsx from "clsx";
 
-import "./FavButton.css";
-
 export default function FavButton({
     favorites,
     setFavorites,
@@ -19,7 +17,7 @@ export default function FavButton({
 }) {
     return (
         <StateButton
-            className={clsx("pair-favorite", className)}
+            className={clsx("icon-button", className)}
             style={{ gridArea: "favorite", ...style }}
             checked={favorites.includes(`${sendCurrency}-${currency.code}`)}
             onClick={() => toggleFavorite(favorites, setFavorites, sendCurrency, currency.code)}
