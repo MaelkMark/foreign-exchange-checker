@@ -40,6 +40,12 @@
     align-items: center;
     background-color: var(--clr-neutral-700);
     user-select: none;
+    opacity: 0;
+    transition: var(--transition);
+
+    &[data-loading="false"][data-error="false"] {
+        opacity: 1;
+    }
 
     .ticker-label {
         font-size: 0.75rem;

@@ -4,6 +4,10 @@
     gap: 0.25rem;
 }
 
+.select.loading::after {
+    border-radius: 0.5em;
+}
+
 .select-label {
     font-size: 0.85em;
     color: var(--clr-neutral-100);

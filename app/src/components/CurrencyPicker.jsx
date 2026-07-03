@@ -1,4 +1,6 @@
 import React from "react";
+import clsx from "clsx";
+
 import {
     Select as AriaSelect,
     SelectValue,
@@ -25,7 +27,7 @@ export default function CurrencyPicker({ value, onChange, errorMessage, ...props
     const { contains } = useFilter({ sensitivity: "base" });
     const [search, setSearch] = React.useState("");
 
-    let { currencies, userCountry } = React.useContext(ExchangeContext);
+    let { currencies, currenciesLoading, currenciesError, userCountry } = React.useContext(ExchangeContext);
 
     currencies ??= [];
 
@@ -68,9 +70,13 @@ export default function CurrencyPicker({ value, onChange, errorMessage, ...props
         [otherCurrencies],
     );
 
+    if (currenciesError) {
+        return <div className="select currency-picker error"></div>;
+    }
+
     return (
         <AriaSelect
-            className="select currency-picker"
+            className={clsx("select currency-picker", currenciesLoading && "loading")}
             {...props}
             aria-label="Pick a currency"
             value={value}

@@ -24,6 +24,10 @@ export default function App() {
     const [sendAmount, setSendAmount] = React.useState(0);
     const [receiveCurrency, setReceiveCurrency] = React.useState("EUR");
 
+    const fatalError = ratesError || currenciesError;
+
+    console.log(exchangeRates, currencies)
+
     return (
         <ExchangeContext.Provider
             value={{
@@ -54,8 +58,19 @@ export default function App() {
                 }}
             >
                 <main className="main">
-                    <Converter />
-                    <DashboardTabs />
+                    {fatalError ? (
+                        <div className="empty-feedback">
+                            <div className="empty-title">Couldn't load exchange data</div>
+                            <div className="empty-message">
+                                We couldn't load {ratesError && "exchange rates"} {ratesError && currenciesError && "and"} {currenciesError && "currency"} data right now. Please try again later.
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            <Converter />
+                            <DashboardTabs />
+                        </>
+                    )}
                 </main>
             </UserContext.Provider>
         </ExchangeContext.Provider>

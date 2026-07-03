@@ -3,6 +3,12 @@
         padding: 0.625em;
     }
 
+    &.loading::after {
+        --clr-bg: var(--clr-neutral-500);
+        --clr-shine: var(--clr-neutral-400);
+    }
+
+
     .select-item, .select-value {
         display: grid;
         grid-template-columns: 20px 3ch 1fr 1em;

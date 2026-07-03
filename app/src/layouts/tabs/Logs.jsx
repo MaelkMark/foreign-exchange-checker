@@ -35,9 +35,9 @@ export default function Logs() {
 
     if (!logs || logs.length === 0) {
         return (
-            <div className="list-empty logs">
-                <div className="list-empty-title">No conversion logs yet</div>
-                <p className="list-empty-message">
+            <div className="empty-feedback logs">
+                <div className="empty-title">No conversion logs yet</div>
+                <p className="empty-message">
                     Every conversion is recorded here automatically when you tap LOG CONVERSION. Your log is
                     private to this session and this browser.
                 </p>

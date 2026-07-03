@@ -17,9 +17,9 @@ export default function Favorites() {
 
     if (!favorites || favorites.length === 0) {
         return (
-            <div className="list-empty favorites">
-                <div className="list-empty-title">No pinned pairs yet</div>
-                <p className="list-empty-message">
+            <div className="empty-feedback favorites">
+                <div className="empty-title">No pinned pairs yet</div>
+                <p className="empty-message">
                     Pin a pair to track its rate here. Tap the star icon on any conversion or comparison row.
                 </p>
             </div>

@@ -17,9 +17,9 @@ export default function Compare() {
 
     if (!sendAmount) {
         return (
-            <div className="list-empty compare">
-                <div className="list-empty-title">No comparison available</div>
-                <p className="list-empty-message">
+            <div className="empty-feedback compare">
+                <div className="empty-title">No comparison available</div>
+                <p className="empty-message">
                     Enter an amount in SEND above to see what your money is worth in other currencies.
                 </p>
             </div>

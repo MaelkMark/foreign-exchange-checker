@@ -135,9 +135,9 @@ export default function History() {
 
     if (dataError) {
         return (
-            <div className="list-empty history">
-                <div className="list-empty-title">No chart data available</div>
-                <p className="list-empty-message">
+            <div className="empty-feedback history">
+                <div className="empty-title">No chart data available</div>
+                <p className="empty-message">
                     We couldn't load rate history for {baseCurrency}/{targetCurrency} right now.
                 </p>
             </div>
