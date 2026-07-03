@@ -18,6 +18,7 @@
     .list-wrapper {
         container-type: size;
         flex-grow: 1;
+        min-height: 18rem;
     }
 
     .list-header {
@@ -54,7 +55,6 @@
         overflow-y: auto;
         height: 100%;
         max-height: 100cqh;
-        min-height: 20rem;
     }
 
     .list-item {
