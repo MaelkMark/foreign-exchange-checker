@@ -101,7 +101,6 @@ export default function Converter() {
                             className="converter-button converter-favorite"
                             checked={isFavorite}
                             onClick={() => toggleFavorite(favorites, setFavorites, sendCurrency, receiveCurrency)}
-                            isDisabled={isUnfilled}
                         >
                             <StateButton.Off>
                                 <StarIcon />
@@ -116,7 +115,7 @@ export default function Converter() {
                             className="converter-button converter-log"
                             checked={loggedFeedback}
                             setChecked={setLoggedFeedback}
-                            uncheckAfter={2000}
+                            uncheckAfter={1000}
                             disabledWhenChecked={true}
                             onClick={() => log()}
                             isDisabled={isUnfilled}
