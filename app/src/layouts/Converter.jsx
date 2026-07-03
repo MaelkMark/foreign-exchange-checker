@@ -12,7 +12,8 @@ import StarFilledIcon from "../assets/images/icon-star-filled.svg?react";
 import CheckIcon from "../assets/images/icon-check.svg?react";
 
 import ExchangeContext from "../context/ExchangeContext";
-import UserContext from "../context/UserContext";
+import ConversionContext from "../context/ConversionContext";
+import MemoryContext from "../context/MemoryContext";
 
 import { getUnitRate, toggleFavorite, getLog, addToLog } from "../utils/utils";
 
@@ -21,18 +22,10 @@ import "./Converter.css";
 export default function Converter() {
     const [loggedFeedback, setLoggedFeedback] = React.useState(false);
     const { exchangeRates, ratesLoading } = React.useContext(ExchangeContext);
-    const {
-        favorites,
-        setFavorites,
-        logs,
-        setLogs,
-        sendCurrency,
-        setSendCurrency,
-        sendAmount,
-        setSendAmount,
-        receiveCurrency,
-        setReceiveCurrency,
-    } = React.useContext(UserContext);
+    const { sendCurrency, setSendCurrency, sendAmount, setSendAmount, receiveCurrency, setReceiveCurrency } =
+        React.useContext(ConversionContext);
+
+    const { favorites, setFavorites, logs, setLogs } = React.useContext(MemoryContext);
 
     function log() {
         const log = getLog(sendCurrency, receiveCurrency, sendAmount, receiveAmount);
@@ -100,7 +93,9 @@ export default function Converter() {
                         <StateButton
                             className="converter-button converter-favorite"
                             checked={isFavorite}
-                            onClick={() => toggleFavorite(favorites, setFavorites, sendCurrency, receiveCurrency)}
+                            onClick={() =>
+                                toggleFavorite(favorites, setFavorites, sendCurrency, receiveCurrency)
+                            }
                         >
                             <StateButton.Off>
                                 <StarIcon />

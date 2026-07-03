@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { getUnitRate, fixedLengthNumber } from "../../utils/utils";
 
 import ExchangeContext from "../../context/ExchangeContext";
-import UserContext from "../../context/UserContext";
+import MemoryContext from "../../context/MemoryContext";
 
 import FavButton from "../../components/FavButton";
 import ArrowRightIcon from "../../assets/images/icon-arrow-right.svg?react";
@@ -12,7 +12,7 @@ import "./Favorites.css";
 
 export default function Favorites() {
     const { exchangeRates, ratesLoading } = React.useContext(ExchangeContext);
-    const { favorites, setFavorites } = React.useContext(UserContext);
+    const { favorites, setFavorites } = React.useContext(MemoryContext);
     const loading = ratesLoading || !exchangeRates;
 
     if (!favorites || favorites.length === 0) {

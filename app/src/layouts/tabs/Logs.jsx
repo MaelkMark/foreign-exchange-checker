@@ -6,12 +6,12 @@ import DeleteIcon from "../../assets/images/icon-delete.svg?react";
 
 import Button from "../../components/Button";
 
-import UserContext from "../../context/UserContext";
+import MemoryContext from "../../context/MemoryContext";
 
 import "./Logs.css";
 
 export default function Logs() {
-    const { logs, setLogs } = React.useContext(UserContext);
+    const { logs, setLogs } = React.useContext(MemoryContext);
 
     function getDateString(datetime) {
         const diff = new Date().getTime() - new Date(datetime).getTime();

@@ -116,7 +116,7 @@ export default function Tabs({ children, className, initialTab, ...props }) {
                         key={tab.id}
                         id={tab.id}
                         className="tab-content"
-                        shouldForceMount={true} // Keep mounted so the grid can measure the tallest panel
+                        shouldForceMount={false} // Keep mounted so the grid can measure the tallest panel
                     >
                         {tab.children}
                     </TabPanel>

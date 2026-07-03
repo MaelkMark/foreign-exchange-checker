@@ -7,12 +7,12 @@ import Compare from "./tabs/Compare";
 import Favorites from "./tabs/Favorites";
 import Logs from "./tabs/Logs";
 
-import userContext from "../context/UserContext";
+import MemoryContext from "../context/MemoryContext";
 
 import "./DashboardTabs.css";
 
 export default function DashboardTabs() {
-    const { favorites, logs } = React.useContext(userContext);
+    const { favorites, logs } = React.useContext(MemoryContext);
     return (
         <Tabs>
             <Tabs.Tab label="History" id="history">

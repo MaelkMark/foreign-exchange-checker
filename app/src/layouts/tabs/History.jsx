@@ -6,123 +6,127 @@ import Chart from "react-apexcharts";
 import SegmentedControl from "../../components/SegmentedControl";
 
 import useHistoricalRates from "../../hooks/useHistoricalRates";
-import UserContext from "../../context/UserContext";
+import ConversionContext from "../../context/ConversionContext";
 
 import "./History.css";
 
 export default function History() {
-    const chartOptions = {
-        chart: {
-            type: "area",
-            background: "transparent",
-            toolbar: {
-                show: false,
+    const chartOptions = React.useMemo(
+        () => ({
+            chart: {
+                type: "area",
+                background: "transparent",
+                toolbar: {
+                    show: false,
+                },
+                zoom: {
+                    enabled: false,
+                },
             },
-            zoom: {
+            colors: ["#CEF739"],
+            dataLabels: {
                 enabled: false,
             },
-        },
-        colors: ["#CEF739"],
-        dataLabels: {
-            enabled: false,
-        },
-        stroke: {
-            curve: "straight",
-            width: 2.5,
-        },
-        fill: {
-            type: "gradient",
-            gradient: {
-                shade: "dark",
-                shadeIntensity: 0.35,
-                type: "vertical",
-                gradientToColors: ["#283300"],
-                inverseColors: false,
-                opacityFrom: 0.8,
-                opacityTo: 0,
-                stops: [0, 100],
+            stroke: {
+                curve: "straight",
+                width: 2.5,
             },
-        },
-        grid: {
-            borderColor: "#2E2E2E",
-            strokeDashArray: 4,
+            fill: {
+                type: "gradient",
+                gradient: {
+                    shade: "dark",
+                    shadeIntensity: 0.35,
+                    type: "vertical",
+                    gradientToColors: ["#283300"],
+                    inverseColors: false,
+                    opacityFrom: 0.8,
+                    opacityTo: 0,
+                    stops: [0, 100],
+                },
+            },
+            grid: {
+                borderColor: "#2E2E2E",
+                strokeDashArray: 4,
+                xaxis: {
+                    lines: {
+                        show: false,
+                    },
+                },
+                yaxis: {
+                    lines: {
+                        show: true,
+                    },
+                },
+                padding: {
+                    left: 16,
+                    right: 0,
+                    top: 0,
+                    bottom: 16,
+                },
+            },
+            markers: {
+                size: 0,
+                hover: {
+                    size: 0,
+                },
+            },
             xaxis: {
-                lines: {
+                type: "datetime",
+                tickAmount: 5,
+                axisBorder: {
                     show: false,
+                },
+                axisTicks: {
+                    show: false,
+                },
+                crosshairs: {
+                    show: false,
+                },
+                labels: {
+                    minHeight: 0,
+                    maxHeight: 4,
+                    datetimeUTC: false,
+                    format: "MMM dd",
+                    style: {
+                        colors: "#9D9D9D",
+                        fontSize: "10px",
+                        fontWeight: 400,
+                    },
+                },
+                tooltip: {
+                    enabled: false,
                 },
             },
             yaxis: {
-                lines: {
-                    show: true,
-                },
-            },
-            padding: {
-                left: 16,
-                right: 0,
-                top: 0,
-                bottom: 16,
-            },
-        },
-        markers: {
-            size: 0,
-            hover: {
-                size: 0,
-            },
-        },
-        xaxis: {
-            type: "datetime",
-            tickAmount: 5,
-            axisBorder: {
-                show: false,
-            },
-            axisTicks: {
-                show: false,
-            },
-            crosshairs: {
-                show: false,
-            },
-            labels: {
-                minHeight: 0,
-                maxHeight: 4,
-                datetimeUTC: false,
-                format: "MMM dd",
-                style: {
-                    colors: "#9D9D9D",
-                    fontSize: "10px",
-                    fontWeight: 400,
+                tickAmount: 2,
+                decimalsInFloat: 4,
+                labels: {
+                    align: "left",
+                    minWidth: 0,
+                    maxWidth: 37,
+                    formatter: value => value.toFixed(4),
+                    style: {
+                        colors: "#9D9D9D",
+                        fontSize: "10px",
+                        fontWeight: 400,
+                    },
                 },
             },
             tooltip: {
-                enabled: false,
+                theme: "dark",
+                shared: true,
+                x: { format: "MMM dd, yyyy" },
             },
-        },
-        yaxis: {
-            tickAmount: 2,
-            decimalsInFloat: 4,
-            labels: {
-                align: "left",
-                minWidth: 0,
-                maxWidth: 37,
-                formatter: value => value.toFixed(4),
-                style: {
-                    colors: "#9D9D9D",
-                    fontSize: "10px",
-                    fontWeight: 400,
-                },
+            legend: {
+                show: false,
             },
-        },
-        tooltip: {
-            theme: "dark",
-            shared: true,
-            x: { format: "MMM dd, yyyy" },
-        },
-        legend: {
-            show: false,
-        },
-    };
+        }),
+        [],
+    );
 
     const [interval, setInterval] = React.useState("1M");
-    const { sendCurrency: baseCurrency, receiveCurrency: targetCurrency } = React.useContext(UserContext);
+    const { sendCurrency: baseCurrency, receiveCurrency: targetCurrency } =
+        React.useContext(ConversionContext);
     const {
         data,
         isLoading: dataLoading,

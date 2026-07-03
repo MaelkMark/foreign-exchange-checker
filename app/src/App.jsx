@@ -12,6 +12,8 @@ import useLocalStorage from "./hooks/useLocalStorage";
 
 import ExchangeContext from "./context/ExchangeContext";
 import UserContext from "./context/UserContext";
+import ConversionContext from "./context/ConversionContext";
+import MemoryContext from "./context/MemoryContext";
 
 export default function App() {
     const { data: exchangeRates, isLoading: ratesLoading, error: ratesError } = useExchangeRates();
@@ -25,8 +27,6 @@ export default function App() {
     const [receiveCurrency, setReceiveCurrency] = React.useState("EUR");
 
     const fatalError = ratesError || currenciesError;
-
-    console.log(exchangeRates, currencies)
 
     return (
         <ExchangeContext.Provider
@@ -43,36 +43,43 @@ export default function App() {
             }}
         >
             <Header />
-            <UserContext.Provider
+            <MemoryContext.Provider
                 value={{
                     favorites: favorites,
                     setFavorites: setFavorites,
                     logs: logs,
                     setLogs: setLogs,
-                    sendCurrency: sendCurrency,
-                    setSendCurrency: setSendCurrency,
-                    sendAmount: sendAmount,
-                    setSendAmount: setSendAmount,
-                    receiveCurrency: receiveCurrency,
-                    setReceiveCurrency: setReceiveCurrency,
                 }}
             >
-                <main className="main">
-                    {fatalError ? (
-                        <div className="empty-feedback">
-                            <div className="empty-title">Couldn't load exchange data</div>
-                            <div className="empty-message">
-                                We couldn't load {ratesError && "exchange rates"} {ratesError && currenciesError && "and"} {currenciesError && "currency"} data right now. Please try again later.
+                <ConversionContext.Provider
+                    value={{
+                        sendCurrency: sendCurrency,
+                        setSendCurrency: setSendCurrency,
+                        sendAmount: sendAmount,
+                        setSendAmount: setSendAmount,
+                        receiveCurrency: receiveCurrency,
+                        setReceiveCurrency: setReceiveCurrency,
+                    }}
+                >
+                    <main className="main">
+                        {fatalError ? (
+                            <div className="empty-feedback">
+                                <div className="empty-title">Couldn't load exchange data</div>
+                                <div className="empty-message">
+                                    We couldn't load {ratesError && "exchange rates"}{" "}
+                                    {ratesError && currenciesError && "and"} {currenciesError && "currency"}{" "}
+                                    data right now. Please try again later.
+                                </div>
                             </div>
-                        </div>
-                    ) : (
-                        <>
-                            <Converter />
-                            <DashboardTabs />
-                        </>
-                    )}
-                </main>
-            </UserContext.Provider>
+                        ) : (
+                            <>
+                                <Converter />
+                                <DashboardTabs />
+                            </>
+                        )}
+                    </main>
+                </ConversionContext.Provider>
+            </MemoryContext.Provider>
         </ExchangeContext.Provider>
     );
 }
