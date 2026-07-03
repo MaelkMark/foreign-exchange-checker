@@ -21,10 +21,10 @@ export default function DashboardTabs() {
             <Tabs.Tab label="Compare" id="compare">
                 <Compare />
             </Tabs.Tab>
-            <Tabs.Tab label="Favorites" id="favorites" notifications={favorites?.length || null}>
+            <Tabs.Tab label="Favorites" id="favorites" notifications={favorites?.length}>
                 <Favorites />
             </Tabs.Tab>
-            <Tabs.Tab label="Logs" id="logs" notifications={logs?.length || null}>
+            <Tabs.Tab label="Logs" id="logs" notifications={logs?.length}>
                 <Logs />
             </Tabs.Tab>
         </Tabs>

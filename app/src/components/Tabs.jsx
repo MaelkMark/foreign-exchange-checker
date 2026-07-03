@@ -16,8 +16,8 @@ export default function Tabs({ children, className, initialTab, ...props }) {
                     const id = child.props.id ? child.props.id.toString() : `tab-${index}`;
                     return {
                         id,
-                        label: child.props.label || `Tab ${index + 1}`,
-                        notifications: child.props.notifications || null,
+                        label: child.props.label ?? `Tab ${index + 1}`,
+                        notifications: child.props.notifications ?? null,
                         children: child.props.children,
                     };
                 }),
