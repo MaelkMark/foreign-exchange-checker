@@ -11,7 +11,15 @@
 
     .list-item {
         display: grid;
-        grid-template-columns: 8ch 1fr auto auto auto;
+        grid-template-areas: "date currencies amount-send amount-receive delete";
+        grid-template-columns: 6ch 1fr auto auto auto;
+
+        @container (width < 650px) {
+            grid-template-areas:
+                "date amount-send delete"
+                "currencies amount-receive delete";
+            grid-template-columns: auto 1fr auto;
+        }
     }
 
     .log-date {

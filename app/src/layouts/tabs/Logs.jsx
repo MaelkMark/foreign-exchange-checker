@@ -62,17 +62,17 @@ export default function Logs() {
                         .sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
                         .map(log => (
                             <div className="list-item" key={log.datetime}>
-                                <div className="log-date">{getDateString(log.datetime)}</div>
-                                <div className="log-currencies">
+                                <div className="log-date" style={{gridArea: "date"}}>{getDateString(log.datetime)}</div>
+                                <div className="log-currencies" style={{gridArea: "currencies"}}>
                                     {log.sendCurrency} <ArrowRightIcon className="log-arrow" />{" "}
                                     {log.receiveCurrency}
                                 </div>
-                                <div className="log-amount-send">{amountFormat.format(log.sendAmount)} </div>
-                                <div className="log-amount-receive">
+                                <div className="log-amount-send" style={{gridArea: "amount-send"}}>{amountFormat.format(log.sendAmount)} </div>
+                                <div className="log-amount-receive" style={{gridArea: "amount-receive"}}>
                                     {amountFormat.format(log.receiveAmount)}
                                 </div>
                                 <Button
-                                    className="icon-button log-delete"
+                                    className="icon-button log-delete" style={{gridArea: "delete"}}
                                     onClick={() => removeFromLog(logs, setLogs, log)}
                                 >
                                     <DeleteIcon className="log-delete-icon" />
