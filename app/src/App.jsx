@@ -11,7 +11,6 @@ import useUserCountry from "./hooks/useUserCountry";
 import useLocalStorage from "./hooks/useLocalStorage";
 
 import ExchangeContext from "./context/ExchangeContext";
-import UserContext from "./context/UserContext";
 import ConversionContext from "./context/ConversionContext";
 import MemoryContext from "./context/MemoryContext";
 
