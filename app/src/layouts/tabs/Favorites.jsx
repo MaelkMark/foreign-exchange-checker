@@ -15,13 +15,22 @@ export default function Favorites() {
     const { favorites, setFavorites } = React.useContext(UserContext);
     const loading = ratesLoading || !exchangeRates;
 
-    console.log(exchangeRates, favorites);
+    if (!favorites || favorites.length === 0) {
+        return (
+            <div className="list-empty favorites">
+                <div className="list-empty-title">No pinned pairs yet</div>
+                <p className="list-empty-message">
+                    Pin a pair to track its rate here. Tap the star icon on any conversion or comparison row.
+                </p>
+            </div>
+        );
+    }
 
     return (
         <div className="list favorites">
             <div className="list-header">
                 <div className="list-header-left list-header-highlight">Pinned pairs</div>
-                <div className="list-header-total">{favorites?.length || 0} favorites</div>
+                <div className="list-header-total">{favorites?.length ?? 0} favorites</div>
             </div>
             <div className="list-wrapper">
                 <div className={clsx("list-items", loading && "loading")}>

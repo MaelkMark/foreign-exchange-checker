@@ -24,7 +24,8 @@
         font-size: 0.875rem;
     }
 
-    .log-amount-send, .log-amount-receive {
+    .log-amount-send,
+    .log-amount-receive {
         font-size: 1rem;
         text-align: right;
     }
@@ -35,5 +36,9 @@
 
     .log-amount-receive {
         color: var(--clr-lime-500);
+    }
+
+    .list-empty-message {
+        max-width: 740px !important;
     }
 }

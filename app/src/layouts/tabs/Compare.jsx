@@ -14,6 +14,18 @@ export default function Compare() {
     const { exchangeRates, ratesLoading, currencies, currenciesLoading } = React.useContext(ExchangeContext);
     const { favorites, setFavorites, sendCurrency, sendAmount } = React.useContext(UserContext);
     const loading = ratesLoading || currenciesLoading || !exchangeRates || !currencies;
+
+    if (!sendAmount) {
+        return (
+            <div className="list-empty compare">
+                <div className="list-empty-title">No comparison available</div>
+                <p className="list-empty-message">
+                    Enter an amount in SEND above to see what your money is worth in other currencies.
+                </p>
+            </div>
+        );
+    }
+
     return (
         <div className="list compare">
             <div className="list-header">

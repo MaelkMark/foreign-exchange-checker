@@ -123,11 +123,26 @@ export default function History() {
 
     const [interval, setInterval] = React.useState("1M");
     const { sendCurrency: baseCurrency, receiveCurrency: targetCurrency } = React.useContext(UserContext);
-    const { data, isLoading: dataLoading } = useHistoricalRates({
+    const {
+        data,
+        isLoading: dataLoading,
+        isError: dataError,
+    } = useHistoricalRates({
         base: baseCurrency,
         target: targetCurrency,
         interval,
     });
+
+    if (dataError) {
+        return (
+            <div className="list-empty history">
+                <div className="list-empty-title">No chart data available</div>
+                <p className="list-empty-message">
+                    We couldn't load rate history for {baseCurrency}/{targetCurrency} right now.
+                </p>
+            </div>
+        );
+    }
 
     const chartSteps = data?.length ? Math.max(1, Math.floor(data.length / 370)) : 1;
     const series = [
@@ -179,7 +194,8 @@ export default function History() {
                                 changePercentage >= 0 ? "change-up" : "change-down",
                             )}
                         >
-                            {changePercentage >= 0 ? "▲" : "▼"} {fixedLengthNumber(changePercentage, 4, true)}%
+                            {changePercentage >= 0 ? "▲" : "▼"} {fixedLengthNumber(changePercentage, 4, true)}
+                            %
                         </div>
                     </div>
                 </div>

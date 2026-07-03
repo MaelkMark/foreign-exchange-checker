@@ -33,6 +33,18 @@ export default function Logs() {
 
     const amountFormat = new Intl.NumberFormat(undefined, { maximumFractionDigits: 2 });
 
+    if (!logs || logs.length === 0) {
+        return (
+            <div className="list-empty logs">
+                <div className="list-empty-title">No conversion logs yet</div>
+                <p className="list-empty-message">
+                    Every conversion is recorded here automatically when you tap LOG CONVERSION. Your log is
+                    private to this session and this browser.
+                </p>
+            </div>
+        );
+    }
+
     return (
         <div className="list logs">
             <div className="list-header">
