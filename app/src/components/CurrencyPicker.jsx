@@ -23,9 +23,11 @@ import ExchangeContext from "../context/ExchangeContext";
 import "./Select.css";
 import "./CurrencyPicker.css";
 
-export default function CurrencyPicker({ value, onChange, errorMessage, ...props }) {
+export default function CurrencyPicker({ value, onChange, errorMessage, omit = [], ...props }) {
     const { contains } = useFilter({ sensitivity: "base" });
     const [search, setSearch] = React.useState("");
+
+    omit = Array.isArray(omit) ? omit : [omit];
 
     let { currencies, currenciesLoading, currenciesError, userCountry } = React.useContext(ExchangeContext);
 
@@ -35,8 +37,8 @@ export default function CurrencyPicker({ value, onChange, errorMessage, ...props
         () =>
             [...(userCountry ? [userCountry.currency] : []), "USD", "EUR", "GBP"]
                 .map(code => currencies.find(c => c.code === code))
-                .filter(Boolean),
-        [currencies, userCountry],
+                .filter(currency => currency !== undefined && !omit.includes(currency.code)),
+        [currencies, userCountry, omit],
     );
     const popularItems = React.useMemo(
         () =>
@@ -53,8 +55,8 @@ export default function CurrencyPicker({ value, onChange, errorMessage, ...props
         [popularCurrencies],
     );
     const otherCurrencies = React.useMemo(
-        () => currencies?.filter(currency => !popularCurrencies.includes(currency)) || [],
-        [currencies, popularCurrencies],
+        () => currencies?.filter(currency => !popularCurrencies.includes(currency) && !omit.includes(currency.code)) || [],
+        [currencies, popularCurrencies, omit],
     );
 
     const otherItems = React.useMemo(

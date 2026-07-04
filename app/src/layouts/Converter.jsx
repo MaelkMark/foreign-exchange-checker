@@ -64,7 +64,7 @@ export default function Converter() {
                             <Label className="amount-focus-label"></Label>
                             <Input className="amount-input" />
                         </NumberField>
-                        <CurrencyPicker value={sendCurrency} onChange={setSendCurrency} />
+                        <CurrencyPicker value={sendCurrency} onChange={setSendCurrency} omit={receiveCurrency} />
                     </div>
                     <Button className="converter-swap" aria-label="Swap currencies" onClick={swapCurrencies}>
                         <SwapIcon />
@@ -82,7 +82,7 @@ export default function Converter() {
                             <Label className="amount-focus-label"></Label>
                             <Input className="amount-input" />
                         </NumberField>
-                        <CurrencyPicker value={receiveCurrency} onChange={setReceiveCurrency} />
+                        <CurrencyPicker value={receiveCurrency} onChange={setReceiveCurrency} omit={sendCurrency} />
                     </div>
                 </Form>
                 <div className="converter-info">
