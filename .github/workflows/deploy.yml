@@ -42,6 +42,6 @@ jobs:
         with:
           personal_token: ${{ secrets.PORTFOLIO_DEPLOY_TOKEN }}
           external_repository: MaelkMark/maelkmark.github.io
-          publish_branch: main
+          publish_branch: master
           publish_dir: ./app/dist
           destination_dir: frontendmentor/foreign-exchange-checker
