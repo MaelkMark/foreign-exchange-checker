@@ -1,64 +1,47 @@
-name: Deploy to Portfolio Main Repo
+name: Deploy Foreign Exchange Checker to Portfolio
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    build-and-deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout Source Code
-              uses: actions/checkout@v4
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
-            - name: Install pnpm
-              uses: pnpm/action-setup@v3
-              with:
-                  version: 9
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "20"
-                  cache: "pnpm"
-                  cache-dependency-path: app/pnpm-lock.yaml
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
 
-            - name: Install Dependencies
-              working-directory: ./app
-              run: pnpm install
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: app/pnpm-lock.yaml
 
-            - name: Build App
-              working-directory: ./app
-              run: pnpm run build
+      - name: Install dependencies
+        run: |
+          cd app
+          pnpm install
+        env:
+          CI: true
 
-            - name: Deploy to Main Portfolio Repo
-              env:
-                  DEPLOY_TOKEN: ${{ secrets.PORTFOLIO_DEPLOY_TOKEN }}
-              run: |
-                  # 1. Clone the target portfolio repository into a temporary directory
-                  git clone --depth 1 https://x-access-token:${DEPLOY_TOKEN}@github.com/MaelkMark/maelkmark.github.io.git portfolio-repo
+      - name: Build app
+        run: |
+          cd app
+          pnpm run build
 
-                  # 2. Create the target directory inside the cloned repo if it doesn't exist
-                  mkdir -p portfolio-repo/frontendmentor/foreign-exchange-checker
-
-                  # 3. Clean out old built files in that folder so deleted assets don't linger
-                  rm -rf portfolio-repo/frontendmentor/foreign-exchange-checker/*
-
-                  # 4. Copy the freshly built files from app/dist into the target folder
-                  cp -r app/dist/* portfolio-repo/frontendmentor/foreign-exchange-checker/
-
-                  # 5. Commit and push the changes inside the portfolio repository
-                  cd portfolio-repo
-                  git config user.name "MaelkMark"
-                  git config user.email "110915409+MaelkMark@users.noreply.github.com"
-
-                  git add frontendmentor/foreign-exchange-checker/
-
-                  # Only commit and push if there are actual changes to avoid empty commit errors
-                  if ! git diff --cached --quiet; then
-                    git commit -m "Deploy foreign-exchange-checker from remote app build 🚀"
-                    git push origin main
-                  else
-                    echo "No changes detected. Skipping push."
-                  fi
+      - name: Deploy to Main Portfolio Repo
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.PORTFOLIO_DEPLOY_TOKEN }}
+          external_repository: MaelkMark/maelkmark.github.io
+          publish_branch: main
+          publish_dir: ./app/dist
+          destination_dir: frontendmentor/foreign-exchange-checker
