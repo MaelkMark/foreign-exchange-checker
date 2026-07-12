@@ -23,7 +23,9 @@ export default function App() {
     const [logs, setLogs] = useLocalStorage("logs", []);
     const [sendCurrency, setSendCurrency] = React.useState("USD");
     const [sendAmount, setSendAmount] = React.useState(0);
-    const [receiveCurrency, setReceiveCurrency] = React.useState("EUR");
+    const [receiveCurrency, setReceiveCurrency] = React.useState(
+        (!userCountryLoading && !userCountryError && userCountry && userCountry?.currency) || "EUR",
+    );
 
     const fatalError = ratesError || currenciesError;
 

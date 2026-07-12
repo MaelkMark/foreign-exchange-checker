@@ -27,24 +27,25 @@ export default function Converter() {
 
     const { favorites, setFavorites, logs, setLogs } = React.useContext(MemoryContext);
 
-    function log() {
-        const log = getLog(sendCurrency, receiveCurrency, sendAmount, receiveAmount);
-        addToLog(logs, setLogs, log);
-        setLoggedFeedback(true);
-    }
-
-    function swapCurrencies() {
-        const tempCurrency = sendCurrency;
-        setSendCurrency(receiveCurrency);
-        setSendAmount(receiveAmount);
-        setReceiveCurrency(tempCurrency);
-    }
-
     const isFavorite = favorites.includes(`${sendCurrency}-${receiveCurrency}`);
 
     const unitRate = getUnitRate(exchangeRates, sendCurrency, receiveCurrency);
     const receiveAmount = unitRate * sendAmount;
     const isUnfilled = sendAmount === 0 || isNaN(sendAmount) || !sendCurrency || !receiveCurrency;
+
+    const log = React.useCallback(() => {
+        const log = getLog(sendCurrency, receiveCurrency, sendAmount, receiveAmount);
+        addToLog(logs, setLogs, log);
+        setLoggedFeedback(true);
+    }, [sendCurrency, receiveCurrency, sendAmount, receiveAmount, logs, setLogs]);
+
+
+    const swapCurrencies = React.useCallback(() => {
+        const tempCurrency = sendCurrency;
+        setSendCurrency(receiveCurrency);
+        setSendAmount(receiveAmount);
+        setReceiveCurrency(tempCurrency);
+    }, [sendCurrency, receiveCurrency, receiveAmount, setSendCurrency, setSendAmount, setReceiveCurrency]);
 
     return (
         <section className="converter">
@@ -61,7 +62,7 @@ export default function Converter() {
                             placeholder={0}
                         >
                             <Label className="amount-label">Send</Label>
-                            <Label className="amount-focus-label"></Label>
+                            <Label className="amount-focus-label" aria-hidden="true"></Label>
                             <Input className="amount-input" />
                         </NumberField>
                         <CurrencyPicker value={sendCurrency} onChange={setSendCurrency} omit={receiveCurrency} />
@@ -79,7 +80,7 @@ export default function Converter() {
                             isReadOnly
                         >
                             <Label className="amount-label">Receive</Label>
-                            <Label className="amount-focus-label"></Label>
+                            <Label className="amount-focus-label" aria-hidden="true"></Label>
                             <Input className="amount-input" />
                         </NumberField>
                         <CurrencyPicker value={receiveCurrency} onChange={setReceiveCurrency} omit={sendCurrency} />
