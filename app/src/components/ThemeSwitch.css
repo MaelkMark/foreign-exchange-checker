@@ -1,0 +1,14 @@
+.theme-switch {
+    font-size: 1rem !important;
+    
+    .segmented-control-item {
+        font-size: 0.8rem;
+        padding: 0.8em 1em;
+    }
+}
+
+.theme-icon path {
+    width: 1.5em;
+    height: 1.5em;
+    fill: var(--clr-neutral-100) !important;
+}

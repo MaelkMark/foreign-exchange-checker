@@ -11,6 +11,7 @@ import ConversionContext from "../../context/ConversionContext";
 import "./History.css";
 
 export default function History() {
+    const rootStyles = window.getComputedStyle(document.documentElement);
     const chartOptions = React.useMemo(
         () => ({
             chart: {
@@ -23,7 +24,7 @@ export default function History() {
                     enabled: false,
                 },
             },
-            colors: ["#CEF739"],
+            colors: [rootStyles.getPropertyValue("--clr-lime-500")],
             dataLabels: {
                 enabled: false,
             },
@@ -37,7 +38,7 @@ export default function History() {
                     shade: "dark",
                     shadeIntensity: 0.35,
                     type: "vertical",
-                    gradientToColors: ["#283300"],
+                    gradientToColors: [rootStyles.getPropertyValue("--clr-lime-800")],
                     inverseColors: false,
                     opacityFrom: 0.8,
                     opacityTo: 0,
@@ -45,7 +46,7 @@ export default function History() {
                 },
             },
             grid: {
-                borderColor: "#2E2E2E",
+                borderColor: rootStyles.getPropertyValue("--clr-neutral-500"),
                 strokeDashArray: 4,
                 xaxis: {
                     lines: {
@@ -88,7 +89,7 @@ export default function History() {
                     datetimeUTC: false,
                     format: "MMM dd",
                     style: {
-                        colors: "#9D9D9D",
+                        colors: rootStyles.getPropertyValue("--clr-neutral-100"),
                         fontSize: "10px",
                         fontWeight: 400,
                     },
@@ -106,7 +107,7 @@ export default function History() {
                     maxWidth: 37,
                     formatter: value => value.toFixed(4),
                     style: {
-                        colors: "#9D9D9D",
+                        colors: rootStyles.getPropertyValue("--clr-neutral-100"),
                         fontSize: "10px",
                         fontWeight: 400,
                     },

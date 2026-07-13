@@ -23,6 +23,26 @@
         stroke: var(--clr-neutral-500);
     }
 
+    .apexcharts-tooltip {
+        color: var(--clr-neutral-50);
+        background-color: var(--clr-neutral-900);
+        border: 1px solid var(--clr-neutral-600);
+        border-radius: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        --box-shadow-color: hsl(from var(--clr-neutral-900) h s l / 0.3);
+        box-shadow: 0 0 0 1px var(--box-shadow-color), 0 var(--apx-tt-shadow-y-mid) 16px -6px var(--box-shadow-color), 0 var(--apx-tt-shadow-y-far) 36px -12px var(--box-shadow-color);
+    }
+
+    .apexcharts-tooltip-arrow {
+        background-color: var(--clr-neutral-900);
+    }
+
+    .apexcharts-tooltip-title {
+        font-size: 0.75rem;
+        font-weight: 400;
+        color: var(--clr-neutral-200);
+    }
+
     svg {
         border-radius: 1rem;
     }

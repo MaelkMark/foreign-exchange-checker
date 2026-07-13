@@ -5,6 +5,7 @@ import { fixedLengthNumber } from "../utils/utils";
 import Logo from "../assets/images/logo.svg?react";
 import Marquee from "../components/Marquee";
 import Spinner from "../components/Loader";
+import ThemeSwitch from "../components/ThemeSwitch";
 
 import "./Header.css";
 import ExchangeContext from "../context/ExchangeContext.jsx";
@@ -17,27 +18,30 @@ export default function Header() {
         <div className="header-wrapper">
             <header className="header">
                 <Logo className="logo" />
-                <div className="header-info">
-                    <span
-                        className="header-info-status"
-                        data-loading={currenciesLoading}
-                        data-error={Boolean(currenciesError || ratesError)}
-                        role="status"
-                    >
-                        {currenciesLoading ? (
-                            <>
-                                <Spinner /> Loading currencies
-                            </>
-                        ) : currenciesError ? (
-                            "Failed to load currencies"
-                        ) : ratesError ? (
-                            "Failed to load exchange rates"
-                        ) : (
-                            `${currencies.length} Currencies`
-                        )}{" "}
-                    </span>
-                    · EOD · ECB data
-                </div>
+                    <div className="header-right">
+                        <div className="header-info">
+                            <span
+                                className="header-info-status"
+                                data-loading={currenciesLoading}
+                                data-error={Boolean(currenciesError || ratesError)}
+                                role="status"
+                            >
+                                {currenciesLoading ? (
+                                    <>
+                                        <Spinner /> Loading currencies
+                                    </>
+                                ) : currenciesError ? (
+                                    "Failed to load currencies"
+                                ) : ratesError ? (
+                                    "Failed to load exchange rates"
+                                ) : (
+                                    `${currencies.length} Currencies`
+                                )}{" "}
+                            </span>
+                            · EOD · ECB data
+                        </div>
+                        <ThemeSwitch />
+                    </div>
             </header>
             <div className="ticker" data-loading={ratesLoading} data-error={Boolean(ratesError)}>
                 <div className="ticker-label">Live markets</div>

@@ -16,13 +16,21 @@
     color: var(--clr-neutral-200);
 
     .logo {
-        width: min(139px, 30vw)
+        width: min(139px, 30vw);
     }
 
-    .header-info {
+    .logo-lime {
+        fill: var(--clr-lime-500);
+    }
+
+    .logo-white {
+        fill: var(--clr-neutral-50);
+    }
+
+    .header-right {
         display: flex;
         align-items: center;
-        gap: 0.5em;
+        gap: 2ch;
     }
     
     .header-info-status {
