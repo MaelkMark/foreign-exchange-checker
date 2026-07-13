@@ -21,7 +21,7 @@ import "./Converter.css";
 
 export default function Converter() {
     const [loggedFeedback, setLoggedFeedback] = React.useState(false);
-    const { exchangeRates, ratesLoading } = React.useContext(ExchangeContext);
+    const { exchangeRates, ratesLoading, userCountryLoading } = React.useContext(ExchangeContext);
     const { sendCurrency, setSendCurrency, sendAmount, setSendAmount, receiveCurrency, setReceiveCurrency } =
         React.useContext(ConversionContext);
 
@@ -83,7 +83,7 @@ export default function Converter() {
                             <Label className="amount-focus-label" aria-hidden="true"></Label>
                             <Input className="amount-input" />
                         </NumberField>
-                        <CurrencyPicker value={receiveCurrency} onChange={setReceiveCurrency} omit={sendCurrency} />
+                        <CurrencyPicker value={receiveCurrency} onChange={setReceiveCurrency} omit={sendCurrency} className={userCountryLoading ? "loading" : ""} />
                     </div>
                 </Form>
                 <div className="converter-info">

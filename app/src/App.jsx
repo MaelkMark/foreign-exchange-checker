@@ -27,6 +27,19 @@ export default function App() {
         (!userCountryLoading && !userCountryError && userCountry && userCountry?.currency) || "EUR",
     );
 
+    const receiveCountrySet = React.useRef(false);
+
+    React.useEffect(() => {
+        if (!userCountryLoading && userCountry && userCountry?.currency && !receiveCountrySet.current) {
+            setReceiveCurrency(userCountry.currency);
+            if (userCountry.currency === "USD") {
+                // eslint-disable-next-line react-hooks/set-state-in-effect
+                setSendCurrency("EUR");
+            }
+            receiveCountrySet.current = true;
+        }
+    }, [userCountryLoading, userCountryError, userCountry]);
+
     const fatalError = ratesError || currenciesError;
 
     return (

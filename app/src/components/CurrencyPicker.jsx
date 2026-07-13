@@ -23,7 +23,7 @@ import ExchangeContext from "../context/ExchangeContext";
 import "./Select.css";
 import "./CurrencyPicker.css";
 
-export default function CurrencyPicker({ value, onChange, errorMessage, omit = [], ...props }) {
+export default function CurrencyPicker({ value, onChange, errorMessage, omit = [], className, ...props }) {
     const { contains } = useFilter({ sensitivity: "base" });
     const [search, setSearch] = React.useState("");
 
@@ -35,7 +35,14 @@ export default function CurrencyPicker({ value, onChange, errorMessage, omit = [
 
     const popularCurrencies = React.useMemo(
         () =>
-            [...(userCountry ? [userCountry.currency] : []), "USD", "EUR", "GBP"]
+            [
+                ...(userCountry && !userCountry.fallback && userCountry.error === null
+                    ? [userCountry.currency]
+                    : []),
+                "USD",
+                "EUR",
+                "GBP",
+            ]
                 .map(code => currencies.find(c => c.code === code))
                 .filter(currency => currency !== undefined && !omit.includes(currency.code)),
         [currencies, userCountry, omit],
@@ -55,7 +62,10 @@ export default function CurrencyPicker({ value, onChange, errorMessage, omit = [
         [popularCurrencies],
     );
     const otherCurrencies = React.useMemo(
-        () => currencies?.filter(currency => !popularCurrencies.includes(currency) && !omit.includes(currency.code)) || [],
+        () =>
+            currencies?.filter(
+                currency => !popularCurrencies.includes(currency) && !omit.includes(currency.code),
+            ) || [],
         [currencies, popularCurrencies, omit],
     );
 
@@ -78,7 +88,7 @@ export default function CurrencyPicker({ value, onChange, errorMessage, omit = [
 
     return (
         <AriaSelect
-            className={clsx("select currency-picker", currenciesLoading && "loading")}
+            className={clsx("select currency-picker", className, currenciesLoading && "loading")}
             {...props}
             aria-label="Pick a currency"
             value={value}

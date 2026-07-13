@@ -8,12 +8,12 @@ export default function useUserCountry() {
         queryFn: async () => {
             
             try {
-                const res = await fetch("http://ip-api.com/json?fields=status,message,countryCode,currency");
+                const res = await fetch("https://free.freeipapi.com/api/jsonX/");
                 if (!res.ok) {
                     throw new Error("Failed to fetch user country");
                 }
                 const data = await res.json();
-                return { country: data.countryCode, currency: data.currency, fallback: false, error: null };
+                return { country: data.countryCode, currency: data.currencies[0], fallback: false, error: null };
             } catch (error) {
                 const locale = navigator.language || navigator.languages[0];
                 const countryCode = locale.split("-")[1];
