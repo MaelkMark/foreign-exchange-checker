@@ -124,6 +124,7 @@ export default function Converter() {
                             onClick={() =>
                                 toggleFavorite(favorites, setFavorites, sendCurrency, receiveCurrency)
                             }
+                            aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
                         >
                             <StateButton.Off>
                                 <StarIcon />
@@ -142,6 +143,7 @@ export default function Converter() {
                             disabledWhenChecked={true}
                             onClick={() => log()}
                             isDisabled={isUnfilled}
+                            aria-label="Log conversion"
                         >
                             <StateButton.Off>Log conversion</StateButton.Off>
                             <StateButton.On>

@@ -54,7 +54,7 @@ function State({ children, state = DEFAULT_STATE }) {
 
     const isActive = state === activeState;
 
-    return <div data-active={isActive}>{children}</div>;
+    return <div data-active={isActive} aria-hidden={!isActive}>{children}</div>;
 }
 
 function Off({ children }) {

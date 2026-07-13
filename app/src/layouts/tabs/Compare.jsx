@@ -29,23 +29,29 @@ export default function Compare() {
             const receiveRate = rateByCurrency[currency.code];
             const unitRate = sendRate && receiveRate ? receiveRate / sendRate : 0;
             return (
-                <div key={currency.code} className="list-item">
+                <div
+                    key={currency.code}
+                    className="list-item"
+                    role="listitem"
+                    aria-label={`${sendAmount} ${sendCurrency} is worth ${numberFormat.format(unitRate * sendAmount)} ${currency.code}`}
+                >
                     <img
                         className="pair-icon"
                         style={{ gridArea: "icon" }}
                         src={currency.icon}
                         alt={currency.code}
+                        aria-hidden="true"
                     />
-                    <div className="pair-code" style={{ gridArea: "code" }}>
+                    <div className="pair-code" aria-hidden="true" style={{ gridArea: "code" }}>
                         {currency.code}
                     </div>
-                    <div className="pair-name" style={{ gridArea: "name" }}>
+                    <div className="pair-name" aria-hidden="true" style={{ gridArea: "name" }}>
                         {currency.name}
                     </div>
-                    <div className="pair-value" style={{ gridArea: "value" }}>
+                    <div className="pair-value" aria-hidden="true" style={{ gridArea: "value" }}>
                         {numberFormat.format(unitRate * sendAmount)}
                     </div>
-                    <div className="pair-rate" style={{ gridArea: "rate" }}>
+                    <div className="pair-rate" aria-hidden="true" style={{ gridArea: "rate" }}>
                         @ {numberFormat.format(unitRate)}
                     </div>
                     <FavButton
@@ -53,6 +59,11 @@ export default function Compare() {
                         setFavorites={setFavorites}
                         sendCurrency={sendCurrency}
                         currency={currency}
+                        aria-label={
+                            favorites.includes(`${sendCurrency}-${currency.code}`)
+                                ? "Remove from favorites"
+                                : "Add to favorites"
+                        }
                     />
                 </div>
             );
@@ -91,7 +102,9 @@ export default function Compare() {
                 <div className="list-header-total">{currencies?.length || 0} pairs</div>
             </div>
             <div className="list-wrapper">
-                <div className={clsx("list-items", loading && "loading")}>{!loading && pairs}</div>
+                <div role="list" className={clsx("list-items", loading && "loading")}>
+                    {!loading && pairs}
+                </div>
             </div>
         </div>
     );

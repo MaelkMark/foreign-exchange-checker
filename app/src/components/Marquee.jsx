@@ -98,6 +98,7 @@ export default function Marquee({ children, speed = 40, className, ...props }) {
 
     React.useEffect(() => {
         if (measuredItems.length === 0 || containerWidth <= 0) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setRenderedItems([]);
             nextIndexRef.current = 0;
             return;
@@ -154,7 +155,7 @@ export default function Marquee({ children, speed = 40, className, ...props }) {
             <div className="marquee-sandbox" ref={sandboxRef} aria-hidden="true">
                 {childItems}
             </div>
-            <div className="marquee-content">
+            <div className="marquee-content" role="list" aria-label="Marquee content">
                 {renderedItems.map(item =>
                     React.cloneElement(item.element, {
                         key: item.id,
@@ -170,7 +171,7 @@ export default function Marquee({ children, speed = 40, className, ...props }) {
 
 function Item({ children, className, style, ...props }) {
     return (
-        <span className={clsx("marquee-item", className)} style={style} {...props}>
+        <span role="listitem" className={clsx("marquee-item", className)} style={style} {...props}>
             {children}
         </span>
     );

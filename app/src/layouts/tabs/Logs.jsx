@@ -57,14 +57,14 @@ export default function Logs() {
                 </div>
             </div>
             <div className="list-wrapper">
-                <div className="list-items">
+                <div className="list-items" role="list">
                     {logs
                         .sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
                         .map(log => (
-                            <div className="list-item" key={log.datetime}>
+                            <div role="listitem" className="list-item" key={log.datetime}>
                                 <div className="log-date" style={{gridArea: "date"}}>{getDateString(log.datetime)}</div>
                                 <div className="log-currencies" style={{gridArea: "currencies"}}>
-                                    {log.sendCurrency} <ArrowRightIcon className="log-arrow" />{" "}
+                                    {log.sendCurrency} <ArrowRightIcon aria-label="to" className="log-arrow" />{" "}
                                     {log.receiveCurrency}
                                 </div>
                                 <div className="log-amount-send" style={{gridArea: "amount-send"}}>{amountFormat.format(log.sendAmount)} </div>
@@ -74,6 +74,7 @@ export default function Logs() {
                                 <Button
                                     className="icon-button log-delete" style={{gridArea: "delete"}}
                                     onClick={() => removeFromLog(logs, setLogs, log)}
+                                    aria-label="Remove from logs"
                                 >
                                     <DeleteIcon className="log-delete-icon" />
                                 </Button>

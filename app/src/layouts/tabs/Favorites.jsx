@@ -33,7 +33,7 @@ export default function Favorites() {
                 <div className="list-header-total">{favorites?.length ?? 0} favorites</div>
             </div>
             <div className="list-wrapper">
-                <div className={clsx("list-items", loading && "loading")}>
+                <div role="list" className={clsx("list-items", loading && "loading")}>
                     {!loading &&
                         favorites.map(favorite => {
                             const [sendCurrency, receiveCurrency] = favorite.split("-");
@@ -48,9 +48,14 @@ export default function Favorites() {
                             const unitRate = getUnitRate(exchangeRates, sendCurrency, receiveCurrency);
                             const change = receiveRate - sendRate;
                             return (
-                                <div className="list-item" key={favorite}>
+                                <div
+                                    role="listitem"
+                                    aria-label={`${sendCurrency} to ${receiveCurrency}`}
+                                    className="list-item"
+                                    key={favorite}
+                                >
                                     <div className="favorite-pair" style={{ gridArea: "pair" }}>
-                                        {sendCurrency} <ArrowRightIcon className="arrow-icon" />{" "}
+                                        {sendCurrency} <ArrowRightIcon className="arrow-icon" aria-label="to" />{" "}
                                         {receiveCurrency}
                                     </div>
                                     <div className="favorite-rate" style={{ gridArea: "rate" }}>
@@ -62,6 +67,7 @@ export default function Favorites() {
                                             change >= 0 ? "change-up" : "change-down",
                                         )}
                                         style={{ gridArea: "change" }}
+                                        aria-label={`Change: ${change >= 0 ? "up" : "down"} ${fixedLengthNumber(change, 4, true)}%`}
                                     >
                                         {change >= 0 ? "▲" : "▼"} {fixedLengthNumber(change, 4, true)}%
                                     </div>
@@ -70,6 +76,7 @@ export default function Favorites() {
                                         setFavorites={setFavorites}
                                         sendCurrency={sendCurrency}
                                         currency={{ code: receiveCurrency }}
+                                        aria-label="Remove from favorites"
                                     />
                                 </div>
                             );

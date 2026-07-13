@@ -110,8 +110,8 @@ export default function CurrencyPicker({ value, onChange, errorMessage, omit = [
             <Autocomplete filter={contains}>
                 <Popover hideArrow className="select-popover currency-picker">
                     <SearchField
-                        aria-label="Search options"
-                        placeholder="Search options"
+                        aria-label="Search currencies"
+                        placeholder="Search currencies"
                         autoFocus
                         onInput={event => setSearch(event.target.value)}
                     />
@@ -156,7 +156,7 @@ function Currency({ code, name, iconSrc, ...props }) {
     name ??= code;
     return (
         <ListBoxItem className="select-item" value={code} id={code} textValue={`${code} ${name}`} {...props}>
-            <img src={iconSrc} alt={name} className="select-item-icon" />
+            <img src={iconSrc} alt={name} className="select-item-icon" aria-hidden="true" />
             <div className="select-item-code">{code}</div>
             <div className="select-item-name">{name}</div>
             <Check className="select-item-check" />

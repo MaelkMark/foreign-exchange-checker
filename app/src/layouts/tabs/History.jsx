@@ -164,44 +164,46 @@ export default function History() {
             <div className="history-header">
                 <div className="history-stats">
                     <div className="history-stat">
-                        <div className="history-stat-label">Open</div>
-                        <div className={clsx("history-stat-value", dataLoading && "loading")}>
+                        <div className="history-stat-label" id="history-stat-open-label">Open</div>
+                        <div className={clsx("history-stat-value", dataLoading && "loading")} aria-labelledby="history-stat-open-label">
                             {openRate.toFixed(4)}
                         </div>
                     </div>
                     <div className="history-stat">
-                        <div className="history-stat-label">Last</div>
-                        <div className={clsx("history-stat-value", dataLoading && "loading")}>
+                        <div className="history-stat-label" id="history-stat-last-label">Last</div>
+                        <div className={clsx("history-stat-value", dataLoading && "loading")} aria-labelledby="history-stat-last-label">
                             {lastRate.toFixed(4)}
                         </div>
                     </div>
                     <div className="history-stat">
-                        <div className="history-stat-label">Change</div>
+                        <div className="history-stat-label" id="history-stat-change-label">Change</div>
                         <div
                             className={clsx(
                                 "history-stat-value",
                                 dataLoading && "loading",
                                 change >= 0 ? "change-up" : "change-down",
                             )}
+                            aria-labelledby="history-stat-change-label"
                         >
                             {fixedLengthNumber(change, 4, true)}
                         </div>
                     </div>
                     <div className="history-stat">
-                        <div className="history-stat-label">% Change</div>
+                        <div className="history-stat-label" id="history-stat-change-percentage-label">% Change</div>
                         <div
                             className={clsx(
                                 "history-stat-value",
                                 dataLoading && "loading",
                                 changePercentage >= 0 ? "change-up" : "change-down",
                             )}
+                            aria-labelledby="history-stat-change-percentage-label"
                         >
                             {changePercentage >= 0 ? "▲" : "▼"} {fixedLengthNumber(changePercentage, 4, true)}
                             %
                         </div>
                     </div>
                 </div>
-                <SegmentedControl selectedOption={interval} onSelect={setInterval}>
+                <SegmentedControl selectedOption={interval} onSelect={setInterval} aria-label="Select chart interval">
                     <SegmentedControl.Item id="1D" value="1D">
                         1D
                     </SegmentedControl.Item>
@@ -224,7 +226,7 @@ export default function History() {
             </div>
             <div className={clsx("history-chart", dataLoading && "loading")}>
                 <div className="history-chart-header">
-                    <div className="history-chart-currencies">
+                    <div className="history-chart-currencies" aria-label={`Currency pair: ${baseCurrency} to ${targetCurrency}`}>
                         {baseCurrency}/{targetCurrency}
                     </div>
                     <div className="history-chart-info">
