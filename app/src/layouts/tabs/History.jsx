@@ -162,16 +162,16 @@ export default function History() {
     return (
         <div className="history">
             <div className="history-header">
-                <div className="history-stats">
+                <div className="history-stats" aria-live="polite" aria-busy={dataLoading}>
                     <div className="history-stat">
                         <div className="history-stat-label" id="history-stat-open-label">Open</div>
-                        <div className={clsx("history-stat-value", dataLoading && "loading")} aria-labelledby="history-stat-open-label" aria-busy={dataLoading} aria-live="polite">
+                        <div className={clsx("history-stat-value", dataLoading && "loading")} aria-labelledby="history-stat-open-label">
                             {openRate.toFixed(4)}
                         </div>
                     </div>
                     <div className="history-stat">
                         <div className="history-stat-label" id="history-stat-last-label">Last</div>
-                        <div className={clsx("history-stat-value", dataLoading && "loading")} aria-labelledby="history-stat-last-label" aria-busy={dataLoading} aria-live="polite">
+                        <div className={clsx("history-stat-value", dataLoading && "loading")} aria-labelledby="history-stat-last-label">
                             {lastRate.toFixed(4)}
                         </div>
                     </div>
@@ -184,8 +184,6 @@ export default function History() {
                                 change >= 0 ? "change-up" : "change-down",
                             )}
                             aria-labelledby="history-stat-change-label"
-                            aria-busy={dataLoading}
-                            aria-live="polite"
                         >
                             {fixedLengthNumber(change, 4, true)}
                         </div>
@@ -199,8 +197,6 @@ export default function History() {
                                 changePercentage >= 0 ? "change-up" : "change-down",
                             )}
                             aria-labelledby="history-stat-change-percentage-label"
-                            aria-busy={dataLoading}
-                            aria-live="polite"
                         >
                             {changePercentage >= 0 ? "▲" : "▼"} {fixedLengthNumber(changePercentage, 4, true)}
                             %
@@ -248,7 +244,7 @@ export default function History() {
                             })}
                     </div>
                 </div>
-                <Chart options={chartOptions} series={series} type="area" height={300} />
+                <Chart options={chartOptions} series={series} aria-label="History chart" type="area" height={300} />
             </div>
         </div>
     );
