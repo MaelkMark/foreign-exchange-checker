@@ -9,6 +9,7 @@ import useExchangeRates from "./hooks/useExchangeRates";
 import useCurrencies from "./hooks/useCurrencies";
 import useUserCountry from "./hooks/useUserCountry";
 import useLocalStorage from "./hooks/useLocalStorage";
+import useSearchParam from "./hooks/useSearchParam";
 
 import ExchangeContext from "./context/ExchangeContext";
 import ConversionContext from "./context/ConversionContext";
@@ -21,13 +22,15 @@ export default function App() {
 
     const [favorites, setFavorites] = useLocalStorage("favorites", []);
     const [logs, setLogs] = useLocalStorage("logs", []);
-    const [sendCurrency, setSendCurrency] = React.useState("USD");
+    
+    const [sendCurrency, setSendCurrency] = useSearchParam("send", "USD");
     const [sendAmount, setSendAmount] = React.useState(0);
-    const [receiveCurrency, setReceiveCurrency] = React.useState(
+    const [receiveCurrency, setReceiveCurrency, receiveSpecified] = useSearchParam(
+        "receive",
         (!userCountryLoading && !userCountryError && userCountry && userCountry?.currency) || "EUR",
     );
 
-    const receiveCountrySet = React.useRef(false);
+    const receiveCountrySet = React.useRef(receiveSpecified);
 
     React.useEffect(() => {
         if (!userCountryLoading && userCountry && userCountry?.currency && !receiveCountrySet.current) {
@@ -38,7 +41,7 @@ export default function App() {
             }
             receiveCountrySet.current = true;
         }
-    }, [userCountryLoading, userCountryError, userCountry]);
+    }, [userCountryLoading, userCountryError, userCountry, setReceiveCurrency, setSendCurrency]);
 
     const fatalError = ratesError || currenciesError;
 
