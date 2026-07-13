@@ -48,7 +48,6 @@ export default function App() {
         if (!userCountryLoading && userCountry && userCountry?.currency && !receiveCountrySet.current) {
             setReceiveCurrency(userCountry.currency);
             if (userCountry.currency === "USD") {
-                // eslint-disable-next-line react-hooks/set-state-in-effect
                 setSendCurrency("EUR");
             }
             receiveCountrySet.current = true;
