@@ -26,6 +26,7 @@ import "./CurrencyPicker.css";
 export default function CurrencyPicker({ value, onChange, errorMessage, omit = [], className, ...props }) {
     const { contains } = useFilter({ sensitivity: "base" });
     const [search, setSearch] = React.useState("");
+    const previousValue = React.useRef(value);
 
     omit = Array.isArray(omit) ? omit : [omit];
 
@@ -82,6 +83,14 @@ export default function CurrencyPicker({ value, onChange, errorMessage, omit = [
         [otherCurrencies],
     );
 
+    const handleChange = React.useCallback(
+        newValue => {
+            onChange(newValue, previousValue.current);
+            previousValue.current = newValue;
+        },
+        [onChange]
+    );
+
     if (currenciesError) {
         return <div className="select currency-picker error"></div>;
     }
@@ -92,7 +101,7 @@ export default function CurrencyPicker({ value, onChange, errorMessage, omit = [
             {...props}
             aria-label="Pick a currency"
             value={value}
-            onChange={onChange}
+            onChange={handleChange}
         >
             <Button className="select-trigger">
                 <SelectValue className="select-value" />

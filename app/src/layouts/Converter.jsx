@@ -33,12 +33,31 @@ export default function Converter() {
     const receiveAmount = unitRate * sendAmount;
     const isUnfilled = sendAmount === 0 || isNaN(sendAmount) || !sendCurrency || !receiveCurrency;
 
+    const handleSendCurrencyChange = React.useCallback(
+        (newSendCurrency, previousSendCurrency) => {
+            if (newSendCurrency === receiveCurrency) {
+                setReceiveCurrency(previousSendCurrency);
+            }
+            setSendCurrency(newSendCurrency);
+        },
+        [receiveCurrency, setReceiveCurrency, setSendCurrency],
+    );
+
+    const handleReceiveCurrencyChange = React.useCallback(
+        (newReceiveCurrency, previousReceiveCurrency) => {
+            if (newReceiveCurrency === sendCurrency) {
+                setSendCurrency(previousReceiveCurrency);
+            }
+            setReceiveCurrency(newReceiveCurrency);
+        },
+        [sendCurrency, setSendCurrency, setReceiveCurrency],
+    );
+
     const log = React.useCallback(() => {
         const log = getLog(sendCurrency, receiveCurrency, sendAmount, receiveAmount);
         addToLog(logs, setLogs, log);
         setLoggedFeedback(true);
     }, [sendCurrency, receiveCurrency, sendAmount, receiveAmount, logs, setLogs]);
-
 
     const swapCurrencies = React.useCallback(() => {
         const tempCurrency = sendCurrency;
@@ -65,7 +84,11 @@ export default function Converter() {
                             <Label className="amount-focus-label" aria-hidden="true"></Label>
                             <Input className="amount-input" />
                         </NumberField>
-                        <CurrencyPicker value={sendCurrency} onChange={setSendCurrency} omit={receiveCurrency} />
+                        <CurrencyPicker
+                            value={sendCurrency}
+                            onChange={handleSendCurrencyChange}
+                            className={userCountryLoading ? "loading" : ""}
+                        />
                     </div>
                     <Button className="converter-swap" aria-label="Swap currencies" onClick={swapCurrencies}>
                         <SwapIcon />
@@ -83,7 +106,11 @@ export default function Converter() {
                             <Label className="amount-focus-label" aria-hidden="true"></Label>
                             <Input className="amount-input" />
                         </NumberField>
-                        <CurrencyPicker value={receiveCurrency} onChange={setReceiveCurrency} omit={sendCurrency} className={userCountryLoading ? "loading" : ""} />
+                        <CurrencyPicker
+                            value={receiveCurrency}
+                            onChange={handleReceiveCurrencyChange}
+                            className={userCountryLoading ? "loading" : ""}
+                        />
                     </div>
                 </Form>
                 <div className="converter-info">
