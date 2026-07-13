@@ -69,7 +69,7 @@ export default function Converter() {
     return (
         <section className="converter">
             <h2>Check the rate</h2>
-            <div className={clsx("box", ratesLoading && "loading")}>
+            <div className={clsx("box", ratesLoading && "loading")} aria-busy={ratesLoading} aria-live="polite">
                 <Form className="converter-form" aria-label="Currency converter">
                     <div className="amount-box amount-box--send">
                         <NumberField
@@ -88,6 +88,7 @@ export default function Converter() {
                             value={sendCurrency}
                             onChange={handleSendCurrencyChange}
                             className={userCountryLoading ? "loading" : ""}
+                            aria-busy={userCountryLoading}
                         />
                     </div>
                     <Button className="converter-swap" aria-label="Swap currencies" onClick={swapCurrencies}>
@@ -110,6 +111,7 @@ export default function Converter() {
                             value={receiveCurrency}
                             onChange={handleReceiveCurrencyChange}
                             className={userCountryLoading ? "loading" : ""}
+                            aria-busy={userCountryLoading}
                         />
                     </div>
                 </Form>

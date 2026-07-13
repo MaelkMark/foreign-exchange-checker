@@ -165,13 +165,13 @@ export default function History() {
                 <div className="history-stats">
                     <div className="history-stat">
                         <div className="history-stat-label" id="history-stat-open-label">Open</div>
-                        <div className={clsx("history-stat-value", dataLoading && "loading")} aria-labelledby="history-stat-open-label">
+                        <div className={clsx("history-stat-value", dataLoading && "loading")} aria-labelledby="history-stat-open-label" aria-busy={dataLoading} aria-live="polite">
                             {openRate.toFixed(4)}
                         </div>
                     </div>
                     <div className="history-stat">
                         <div className="history-stat-label" id="history-stat-last-label">Last</div>
-                        <div className={clsx("history-stat-value", dataLoading && "loading")} aria-labelledby="history-stat-last-label">
+                        <div className={clsx("history-stat-value", dataLoading && "loading")} aria-labelledby="history-stat-last-label" aria-busy={dataLoading} aria-live="polite">
                             {lastRate.toFixed(4)}
                         </div>
                     </div>
@@ -184,6 +184,8 @@ export default function History() {
                                 change >= 0 ? "change-up" : "change-down",
                             )}
                             aria-labelledby="history-stat-change-label"
+                            aria-busy={dataLoading}
+                            aria-live="polite"
                         >
                             {fixedLengthNumber(change, 4, true)}
                         </div>
@@ -197,6 +199,8 @@ export default function History() {
                                 changePercentage >= 0 ? "change-up" : "change-down",
                             )}
                             aria-labelledby="history-stat-change-percentage-label"
+                            aria-busy={dataLoading}
+                            aria-live="polite"
                         >
                             {changePercentage >= 0 ? "▲" : "▼"} {fixedLengthNumber(changePercentage, 4, true)}
                             %

@@ -33,7 +33,7 @@ export default function Favorites() {
                 <div className="list-header-total">{favorites?.length ?? 0} favorites</div>
             </div>
             <div className="list-wrapper">
-                <div role="list" className={clsx("list-items", loading && "loading")}>
+                <div role="list" className={clsx("list-items", loading && "loading")} aria-busy={loading} aria-live="polite">
                     {!loading &&
                         favorites.map(favorite => {
                             const [sendCurrency, receiveCurrency] = favorite.split("-");

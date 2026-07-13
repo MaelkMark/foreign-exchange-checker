@@ -100,6 +100,7 @@ export default function CurrencyPicker({ value, onChange, errorMessage, omit = [
             className={clsx("select currency-picker", className, currenciesLoading && "loading")}
             {...props}
             aria-label="Pick a currency"
+            aria-busy={currenciesLoading}
             value={value}
             onChange={handleChange}
         >

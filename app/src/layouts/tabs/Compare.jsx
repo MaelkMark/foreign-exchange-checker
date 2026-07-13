@@ -61,8 +61,8 @@ export default function Compare() {
                         currency={currency}
                         aria-label={
                             favorites.includes(`${sendCurrency}-${currency.code}`)
-                                ? "Remove from favorites"
-                                : "Add to favorites"
+                                ? `Remove ${sendCurrency}/${currency.code} from favorites`
+                                : `Add ${sendCurrency}/${currency.code} to favorites`
                         }
                     />
                 </div>
@@ -102,7 +102,7 @@ export default function Compare() {
                 <div className="list-header-total">{currencies?.length || 0} pairs</div>
             </div>
             <div className="list-wrapper">
-                <div role="list" className={clsx("list-items", loading && "loading")}>
+                <div role="list" className={clsx("list-items", loading && "loading")} aria-busy={loading} aria-live="polite">
                     {!loading && pairs}
                 </div>
             </div>
