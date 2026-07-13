@@ -1,6 +1,3 @@
-import React from "react";
-
-import SegmentedControl from "../components/SegmentedControl";
 import Select from "../components/Select";
 
 import DarkModeIcon from "../assets/images/icon-dark.svg?react";
@@ -19,17 +16,17 @@ export default function ThemeSwitch() {
             selectedKey={theme}
             onSelectionChange={setTheme}
             selectionIcon={false}
-            aria-label="Select theme"
+            ariaLabel="Select theme"
             className="theme-switch"
             data-theme={theme}
         >
-            <Select.Item key="light" value="light" aria-label="Light mode">
+            <Select.Item key="light" value="light" aria-label="Light theme">
                 <LightModeIcon className="theme-icon" />
             </Select.Item>
-            <Select.Item key="dark" value="dark" aria-label="Dark mode">
+            <Select.Item key="dark" value="dark" aria-label="Dark theme">
                 <DarkModeIcon className="theme-icon" />
             </Select.Item>
-            <Select.Item key="system" value="system" aria-label="System mode">
+            <Select.Item key="system" value="system" aria-label="System default theme">
                 <DeviceIcon className="theme-icon" />
             </Select.Item>
         </Select>
