@@ -12,118 +12,120 @@ import "./History.css";
 
 export default function History() {
     const rootStyles = window.getComputedStyle(document.documentElement);
-    const chartOptions = React.useMemo(
-        () => ({
-            chart: {
-                type: "area",
-                background: "transparent",
-                toolbar: {
-                    show: false,
-                },
-                zoom: {
-                    enabled: false,
-                },
+    const chartOptions = {
+        chart: {
+            type: "area",
+            background: "transparent",
+            toolbar: {
+                show: false,
             },
-            colors: [rootStyles.getPropertyValue("--clr-lime-500")],
-            dataLabels: {
+            zoom: {
                 enabled: false,
             },
-            stroke: {
-                curve: "straight",
-                width: 2.5,
-            },
-            fill: {
-                type: "gradient",
-                gradient: {
-                    shade: "dark",
-                    shadeIntensity: 0.35,
-                    type: "vertical",
-                    gradientToColors: [rootStyles.getPropertyValue("--clr-lime-800")],
-                    inverseColors: false,
-                    opacityFrom: 0.8,
-                    opacityTo: 0,
-                    stops: [0, 100],
+            events: {
+                mounted: chartContext => {
+                    chartContext.updateOptions({}, false, false);
                 },
             },
-            grid: {
-                borderColor: rootStyles.getPropertyValue("--clr-neutral-500"),
-                strokeDashArray: 4,
-                xaxis: {
-                    lines: {
-                        show: false,
-                    },
-                },
-                yaxis: {
-                    lines: {
-                        show: true,
-                    },
-                },
-                padding: {
-                    left: 16,
-                    right: 0,
-                    top: 0,
-                    bottom: 16,
-                },
+        },
+        colors: [rootStyles.getPropertyValue("--clr-lime-500")],
+        dataLabels: {
+            enabled: false,
+        },
+        stroke: {
+            curve: "straight",
+            width: 2.5,
+        },
+        fill: {
+            type: "gradient",
+            gradient: {
+                shade: "dark",
+                shadeIntensity: 0.35,
+                type: "vertical",
+                gradientToColors: [rootStyles.getPropertyValue("--clr-lime-800")],
+                inverseColors: false,
+                opacityFrom: 0.8,
+                opacityTo: 0,
+                stops: [0, 100],
             },
-            markers: {
-                size: 0,
-                hover: {
-                    size: 0,
-                },
-            },
+        },
+        grid: {
+            borderColor: rootStyles.getPropertyValue("--clr-neutral-500"),
+            strokeDashArray: 4,
             xaxis: {
-                type: "datetime",
-                tickAmount: 5,
-                axisBorder: {
+                lines: {
                     show: false,
-                },
-                axisTicks: {
-                    show: false,
-                },
-                crosshairs: {
-                    show: false,
-                },
-                labels: {
-                    minHeight: 0,
-                    maxHeight: 4,
-                    datetimeUTC: false,
-                    format: "MMM dd",
-                    style: {
-                        colors: rootStyles.getPropertyValue("--clr-neutral-100"),
-                        fontSize: "10px",
-                        fontWeight: 400,
-                    },
-                },
-                tooltip: {
-                    enabled: false,
                 },
             },
             yaxis: {
-                tickAmount: 2,
-                decimalsInFloat: 4,
-                labels: {
-                    align: "left",
-                    minWidth: 0,
-                    maxWidth: 37,
-                    formatter: value => value.toFixed(4),
-                    style: {
-                        colors: rootStyles.getPropertyValue("--clr-neutral-100"),
-                        fontSize: "10px",
-                        fontWeight: 400,
-                    },
+                lines: {
+                    show: true,
+                },
+            },
+            padding: {
+                left: 16,
+                right: 0,
+                top: 0,
+                bottom: 16,
+            },
+        },
+        markers: {
+            size: 0,
+            hover: {
+                size: 0,
+            },
+        },
+        xaxis: {
+            type: "datetime",
+            tickAmount: 5,
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: false,
+            },
+            crosshairs: {
+                show: false,
+            },
+            labels: {
+                minHeight: 0,
+                maxHeight: 4,
+                datetimeUTC: false,
+                format: "MMM dd",
+                style: {
+                    colors: rootStyles.getPropertyValue("--clr-neutral-100"),
+                    fontSize: "10px",
+                    fontWeight: 400,
                 },
             },
             tooltip: {
-                theme: "dark",
-                shared: true,
-                x: { format: "MMM dd, yyyy" },
+                enabled: false,
             },
-            legend: {
-                show: false,
+        },
+        yaxis: {
+            tickAmount: 2,
+            decimalsInFloat: 4,
+            labels: {
+                align: "left",
+                minWidth: 0,
+                maxWidth: 37,
+                formatter: value => value.toFixed(4),
+                style: {
+                    colors: rootStyles.getPropertyValue("--clr-neutral-100"),
+                    fontSize: "10px",
+                    fontWeight: 400,
+                },
             },
-        }),
-        [],
-    );
+        },
+        tooltip: {
+            theme: "dark",
+            shared: true,
+            x: { format: "MMM dd, yyyy" },
+        },
+        legend: {
+            show: false,
+        },
+    };
 
     const [interval, setInterval] = React.useState("1M");
     const { sendCurrency: baseCurrency, receiveCurrency: targetCurrency } =
