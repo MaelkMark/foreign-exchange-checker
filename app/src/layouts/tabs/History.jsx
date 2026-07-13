@@ -22,11 +22,6 @@ export default function History() {
             zoom: {
                 enabled: false,
             },
-            events: {
-                mounted: chartContext => {
-                    chartContext.updateOptions({}, false, false);
-                },
-            },
         },
         colors: [rootStyles.getPropertyValue("--clr-lime-500")],
         dataLabels: {
