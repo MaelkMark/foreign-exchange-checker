@@ -1,18 +1,33 @@
 import React from "react";
 
-export default function useSearchParam(key, fallback) {
+export default function useSearchParam(key, fallback, validate, validateAvailable = true) {
     const params = new URLSearchParams(window.location.search);
-    const paramExists =
-        params.has(key) &&
-        params.get(key) !== null &&
-        params.get(key) !== undefined &&
-        params.get(key) !== "";
+    const paramExists = params.has(key) && params.get(key) !== "";
+    const initialValue = React.useRef(params.get(key));
+
+    /**
+     * Returns a valid value based on the following rules:
+     * 1. If the parameter doesn't exist or validator function isn't available yet, return the fallback value.
+     * 2. If validation isn't provided or fails, use fallback.
+     */
+    const getValidValue = React.useCallback(
+        value => {
+            // If the parameter doesn't exist or validator function isn't available yet, return the fallback value
+            if (!paramExists || !validateAvailable) return fallback;
+
+            // If validation isn't provided or fails, use fallback
+            return !validate || validate(value) ? value : fallback;
+        },
+        [paramExists, validateAvailable, fallback, validate],
+    );
 
     const [param, setParam] = React.useState(() => {
-        console.log("useSearchParam", key, params.get(key), fallback);
-        return params.get(key) ?? fallback;
+        return getValidValue(params.get(key));
     });
 
+    /**
+     * Updates the URL with the new value for the specified key. If the new value is null, undefined, or an empty string, the key is removed from the URL.
+     */
     const updateURL = React.useCallback(
         newValue => {
             const params = new URLSearchParams(window.location.search);
@@ -21,7 +36,6 @@ export default function useSearchParam(key, fallback) {
             } else {
                 params.set(key, newValue);
             }
-
             const searchString = params.toString();
             const newUrl = `${window.location.pathname}${searchString ? "?" + searchString : ""}${window.location.hash}`;
             window.history.replaceState({}, "", newUrl);
@@ -29,6 +43,9 @@ export default function useSearchParam(key, fallback) {
         [key],
     );
 
+    /**
+     * Updates the parameter state and the URL with the new value.
+     */
     const updateParam = React.useCallback(
         newValue => {
             setParam(newValue);
@@ -37,21 +54,25 @@ export default function useSearchParam(key, fallback) {
         [updateURL],
     );
 
+    /**
+     * Effect to update the URL when the component mounts or when the validator function changes (or becomes available).
+     * It ensures that the URL reflects the current state of the parameter.
+     * If the parameter doesn't exist or the current value is invalid, it updates the URL with a valid value.
+     * It reevaluates the value as soon as the validator function becomes available, so it doesn't drop the parameter from the URL if it was valid but the validator function wasn't available yet.
+     */
     React.useEffect(() => {
-        if (!paramExists && fallback !== null) {
-            updateURL(fallback);
-        }
-    }, [paramExists, fallback, updateURL]);
+        const validValue = getValidValue(initialValue.current);
+        updateParam(validValue);
+    }, [getValidValue, updateParam]);
 
     React.useEffect(() => {
         const handlePopState = () => {
             const params = new URLSearchParams(window.location.search);
-            setParam(params.get(key) ?? fallback);
+            setParam(getValidValue(params.get(key)));
         };
-
         window.addEventListener("popstate", handlePopState);
         return () => window.removeEventListener("popstate", handlePopState);
-    }, [key, fallback]);
+    }, [key, getValidValue]);
 
     return [param, updateParam, paramExists];
 }

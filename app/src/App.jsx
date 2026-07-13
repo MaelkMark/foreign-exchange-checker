@@ -22,12 +22,24 @@ export default function App() {
 
     const [favorites, setFavorites] = useLocalStorage("favorites", []);
     const [logs, setLogs] = useLocalStorage("logs", []);
-    
-    const [sendCurrency, setSendCurrency] = useSearchParam("send", "USD");
+
+    const validateCurrency = React.useCallback(
+        value => currencies.some(currency => currency.code === value),
+        [currencies],
+    );
+
+    const [sendCurrency, setSendCurrency] = useSearchParam(
+        "send",
+        "USD",
+        validateCurrency,
+        !currenciesLoading,
+    );
     const [sendAmount, setSendAmount] = React.useState(0);
     const [receiveCurrency, setReceiveCurrency, receiveSpecified] = useSearchParam(
         "receive",
         (!userCountryLoading && !userCountryError && userCountry && userCountry?.currency) || "EUR",
+        validateCurrency,
+        !currenciesLoading,
     );
 
     const receiveCountrySet = React.useRef(receiveSpecified);
