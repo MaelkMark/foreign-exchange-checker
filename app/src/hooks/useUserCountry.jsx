@@ -8,7 +8,7 @@ export default function useUserCountry() {
         queryFn: async () => {
             
             try {
-                const res = await fetch("https://free.freeipapi.com/api/jsonX/");
+                const res = await fetch("https://free.freeipapi.com/api/json/");
                 if (!res.ok) {
                     throw new Error("Failed to fetch user country");
                 }
